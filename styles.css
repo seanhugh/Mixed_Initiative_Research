@@ -89,13 +89,28 @@ img.equation {
 /* Dynamic Stuff */
 
 .hideMe{
-  display: none;
+  display: none!important;
 }
 
 #preview {
   margin-top: 1em;
   padding: 1em;
   background-color: #E3CBAC;
+}
+
+.myButton {
+    padding: 5px;
+    width: 77px;
+    background: #03a9f4;
+    margin: 10px;
+    color: wheat;
+    cursor: pointer;
+}
+
+div#controlls {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 20px 0px;
 }
 
 /* Hover Animation */

@@ -27,6 +27,11 @@
             <p id = "answerWraper"> Input Equation: <span id="answer"></span></p>
             <div id="preview" class = "hideMe"></div>
             <div id = "screen1Button" class = "goButton" onclick="screen2()">Continue</div>
+            <div id = "controlls" class = "hideMe" onclick="screen2()">
+              <div class = "myButton">divide</div>
+              <div class = "myButton">factor</div>
+              <div class = "myButton">multiply</div>
+            </div>
             <!-- <span id="problem">ax^2 + bx + c = 0</span> -->
 
             <script>
@@ -56,15 +61,11 @@
                 $("#answerWraper").addClass("hideMe");
                 $("#screen1Button").addClass("hideMe");
                 $("#preview").removeClass("hideMe");
+                $("#controlls").removeClass("hideMe");
                 makePreview();
               }
 
             </script>
-        </div>
-
-        <div class = "alterScreen" style = "display:none;">
-          <div id = "viewer2" class = "viewBox"> </div>
-          <div id = "input2" class = "inputBox"> </div>
         </div>
     </div>
 
