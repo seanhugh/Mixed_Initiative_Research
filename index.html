@@ -1,74 +1,39 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="mathquill/mathquill.css"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="mathquill/mathquill.js"></script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ["\\(","\\)"]] } });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ["\\(","\\)"]] } });
+  </script>
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
-
 <body bgcolor="#edf0f2">
-
-<div id="container"><!-- flex container -->
-
-    <img src = "logo.svg" class = "logo" />
-
+  <script src="math.js"></script>
+  <div id="container"><!-- flex container -->
+    <img src="logo.svg" class="logo"/>
     <div class="box" id="bluebox"><!-- flex item -->
-        <div class = "inputScreen">
 
-            <p id = "answerWraper"> Input Equation: <span id="answer"></span></p>
-            <div id="preview" class = "hideMe"></div>
-            <div id = "screen1Button" class = "goButton" onclick="screen2()">Continue</div>
-            <div id = "controlls" class = "hideMe" onclick="screen2()">
-              <div class = "myButton">divide</div>
-              <div class = "myButton">factor</div>
-              <div class = "myButton">multiply</div>
-            </div>
-            <!-- <span id="problem">ax^2 + bx + c = 0</span> -->
+      <div class="inputScreen">
+        <p id="entryWrapper"> Input Equation: <span id="entryBox"></span></p>
 
-            <script>
-              var MQ = MathQuill.getInterface(2);
-              MQ.StaticMath($('#problem')[0]);
-              var answer = MQ.MathField($('#answer')[0], {
-                handlers: {
-                  edit: function() {
-                    //checkAnswer(answer.latex());
-                  }
-                }
-              });
-              var answer = "";
-              function saveEquation() {
-                  answer = MQ.MathField($('#answer')[0]);
-                  console.log(answer.latex());
-              }
+        <div id="preview" style="display: none;"></div>
 
-              function makePreview() {
-                  input = answer.latex().replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                  $('#preview').html("$$" + input + "$$");
-                  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
-                }
-
-              function screen2(){
-                saveEquation();
-                $("#answerWraper").addClass("hideMe");
-                $("#screen1Button").addClass("hideMe");
-                $("#preview").removeClass("hideMe");
-                $("#controlls").removeClass("hideMe");
-                makePreview();
-              }
-
-            </script>
+        <div id="continueButton" class="goButton">
+          Continue
         </div>
-    </div>
 
-</div>
+        <div id="controls" style="display: none;">
+          <div class="myButton">divide</div>
+          <div class="myButton">factor</div>
+          <div class="myButton">multiply</div>
+        </div>
+        <!-- <span id="problem">ax^2 + bx + c = 0</span> -->
+      </div>
+
+    </div>
+  </div>
 </body>
 </html>

@@ -62,7 +62,7 @@ img.equation {
     justify-content: center;
 }
 
-#answer{
+#entryBox {
   padding: 10px;
 }
 
@@ -87,10 +87,6 @@ img.equation {
 
 
 /* Dynamic Stuff */
-
-.hideMe{
-  display: none!important;
-}
 
 #preview {
   margin-top: 1em;
