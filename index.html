@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="mathquill/mathquill.css"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="mathquill/mathquill.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ["\\(","\\)"]] } });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 </head>
 
@@ -19,8 +23,9 @@
     <div class="box" id="bluebox"><!-- flex item -->
         <div class = "inputScreen">
 
-            <p> Input Equation: <span id="answer"></span></p>
-            <div class = "goButton" onclick="saveEquation()">Continue</div>
+            <p id = "answerWraper"> Input Equation: <span id="answer"></span></p>
+            <p>Solve <span id="problem">ax^2 + bx + c = 0</span>.</p>
+            <div id = "screen1Button" class = "goButton" onclick="screen2()">Continue</div>
             <!-- <span id="problem">ax^2 + bx + c = 0</span> -->
 
             <script>
@@ -39,6 +44,14 @@
                   console.log(answer.latex());
               }
 
+              function screen2(){
+                saveEquation();
+                $("#answerWraper").addClass("hideMe");
+                $("#screen1Button").addClass("hideMe");
+                var problemSpan = document.getElementById('problem');
+                MQ.StaticMath(problemSpan);
+              }
+
             </script>
         </div>
 
@@ -47,6 +60,10 @@
           <div id = "input2" class = "inputBox"> </div>
         </div>
     </div>
+
+    <textarea id="input" rows="8">\sin^2x + \cos^2x = 1</textarea>
+
+    <div id="preview"></div>
 
 </div>
 </body>
