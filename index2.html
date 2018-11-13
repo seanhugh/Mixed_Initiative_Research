@@ -1,0 +1,61 @@
+<html>
+<head>
+<meta charset=utf-8>
+<title>Live Preview of MathJax Type Setting</title>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ["\\(","\\)"]] } });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+<script>
+$(function() {
+  function makePreview() {
+    input = $('#input').val().replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    $('#preview').html("$$" + input + "$$");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
+  }
+
+  $('textarea').keyup(function() {
+    makePreview();
+  });
+
+  $('#preview').on('updated', function() {
+    makePreview();
+  });
+
+  makePreview();
+});
+</script>
+
+<style>
+html {
+  background-color: #324654;
+}
+body, textarea {
+  background-color: white;
+  width: 900px;
+  margin: 0 auto;
+  padding: 1em;
+  font-size: 22px;
+}
+textarea {
+  font-family: DejaVu Sans Mono, monospace;
+}
+#preview {
+  margin-top: 1em;
+  padding: 1em;
+  background-color: #E3CBAC;
+}
+</style>
+
+</head>
+
+<body>
+
+<textarea id="input" rows="8">\sin^2x + \cos^2x = 1</textarea>
+
+<div id="preview"></div>
+
+</body>
+</html>
