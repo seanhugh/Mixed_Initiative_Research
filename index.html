@@ -4,6 +4,9 @@
 <head>
 
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="mathquill/mathquill.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="mathquill/mathquill.js"></script>
 
 </head>
 
@@ -15,11 +18,31 @@
 
     <div class="box" id="bluebox"><!-- flex item -->
         <div class = "inputScreen">
-          <div id = "viewer1" class = "viewBox"> </div>
-          <div id = "input1" class = "inputBox"> </div>
+
+            <p> Input Equation: <span id="answer"></span></p>
+            <div class = "goButton" onclick="saveEquation()">Continue</div>
+            <!-- <span id="problem">ax^2 + bx + c = 0</span> -->
+
+            <script>
+              var MQ = MathQuill.getInterface(2);
+              MQ.StaticMath($('#problem')[0]);
+              var answer = MQ.MathField($('#answer')[0], {
+                handlers: {
+                  edit: function() {
+                    //checkAnswer(answer.latex());
+                  }
+                }
+              });
+              var answer = "";
+              function saveEquation() {
+                  answer = MQ.MathField($('#answer')[0]);
+                  console.log(answer.latex());
+              }
+
+            </script>
         </div>
 
-        <div class = "alterScreen">
+        <div class = "alterScreen" style = "display:none;">
           <div id = "viewer2" class = "viewBox"> </div>
           <div id = "input2" class = "inputBox"> </div>
         </div>
