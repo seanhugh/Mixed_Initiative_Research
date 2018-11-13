@@ -1,54 +1,51 @@
 #container {
-    display: flex;           /* establish flex container */
-    flex-direction: column;  /* make main axis vertical */
-    justify-content: center; /* center items vertically, in this case */
-    align-items: center;     /* center items horizontally, in this case */
-    height: 300px;
+  display: flex;           /* establish flex container */
+  flex-direction: column;  /* make main axis vertical */
+  justify-content: center; /* center items vertically, in this case */
+  align-items: center;     /* center items horizontally, in this case */
+  height: 300px;
 }
 
 .box {
-    width: 600px;
-    margin: 5px;
-    text-align: center;
-    background: #e1e2e1;
-    border-radius: 2px;
-    margin-top: 300px;
-    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  width: 600px;
+  margin: 5px;
+  text-align: center;
+  background: #e1e2e1;
+  border-radius: 2px;
+  margin-top: 300px;
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   -ms-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   -o-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-.logo{
+.logo {
   width: 200px;
   position: absolute;
   top:50px;
   left:50px;
 }
 
-
 /* THE CSS FOR THE VIEWER */
 
 .viewBox {
-    min-width: 500px;
-    margin: 50px;
-    min-height: 100px;
-    background: white;
+  min-width: 500px;
+  margin: 50px;
+  min-height: 100px;
+  background: white;
 }
 
 img.equation {
-    height: 50px;
-    display: block;
-    margin: 0 105px;
-    margin-top: 25px;
+  height: 50px;
+  display: block;
+  margin: 0 105px;
+  margin-top: 25px;
 }
-
-
 
 /* THE CSS FOR THE INPUT */
 
-.inputBox{
+.inputBox {
   margin: 50px;
   margin-top: 0px;
   min-width: 500px;
@@ -57,9 +54,9 @@ img.equation {
 }
 
 .inputScreen {
-    display: flex;
-        flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #entryBox {
@@ -67,18 +64,18 @@ img.equation {
 }
 
 .goButton {
-    color:white;
-    width: 100px;
-    margin: 15px;
-    padding: 10px;
-    background: #03a9f4;
-    margin-left: 73%;
-    border-radius: 3px;
+  color:white;
+  width: 100px;
+  margin: 15px;
+  padding: 10px;
+  background: #03a9f4;
+  margin-left: 73%;
+  border-radius: 3px;
 }
 
 .goButton:hover {
-    cursor: pointer;
-    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.18);
   -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.18);
   -ms-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.18);
   -o-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.18);
@@ -95,32 +92,31 @@ img.equation {
 }
 
 .myButton {
-    padding: 5px;
-    width: 77px;
-    background: #03a9f4;
-    margin: 10px;
-    color: wheat;
-    cursor: pointer;
+  padding: 5px;
+  width: 77px;
+  background: #03a9f4;
+  margin: 10px;
+  color: wheat;
+  cursor: pointer;
 }
 
-div#controlls {
-    display: flex;
-    justify-content: space-evenly;
-    padding: 20px 0px;
+div#controls {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px 0px;
 }
 
 /* Hover Animation */
 
- @-ms-keyframes wiggle{0%{-ms-transform:rotate(1deg);}50%{-ms-transform:rotate(-1deg);}100%{-ms-transform:rotate(1deg);}}
- @-moz-keyframes wiggle{0%{-moz-transform:rotate(1deg);}50%{-moz-transform:rotate(-1deg);}100%{-moz-transform:rotate(1deg);}}
- @-webkit-keyframes wiggle{0%{-webkit-transform:rotate(1deg);}50%{-webkit-transform:rotate(-1deg);}100%{-webkit-transform:rotate(1deg);}}
- @keyframes wiggle{0%{transform:rotate(1deg);}50%{transform:rotate(-1deg);}100%{transform:rotate(1deg);}}
+@-ms-keyframes wiggle{0%{-ms-transform:rotate(1deg);}50%{-ms-transform:rotate(-1deg);}100%{-ms-transform:rotate(1deg);}}
+@-moz-keyframes wiggle{0%{-moz-transform:rotate(1deg);}50%{-moz-transform:rotate(-1deg);}100%{-moz-transform:rotate(1deg);}}
+@-webkit-keyframes wiggle{0%{-webkit-transform:rotate(1deg);}50%{-webkit-transform:rotate(-1deg);}100%{-webkit-transform:rotate(1deg);}}
+@keyframes wiggle{0%{transform:rotate(1deg);}50%{transform:rotate(-1deg);}100%{transform:rotate(1deg);}}
 
-.logo:hover{
-
- -ms-animation:wiggle .3s 2;
- -moz-animation:wiggle .3s 2;
- -webkit-animation:wiggle .3s 2;
+.logo:hover {
+  -ms-animation:wiggle .3s 2;
+  -moz-animation:wiggle .3s 2;
+  -webkit-animation:wiggle .3s 2;
   animation:wiggle .3s 2;
   cursor: pointer;
 }
