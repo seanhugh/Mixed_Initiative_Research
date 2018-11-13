@@ -12,6 +12,7 @@
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
+
 </head>
 
 <body bgcolor="#edf0f2">
@@ -24,7 +25,7 @@
         <div class = "inputScreen">
 
             <p id = "answerWraper"> Input Equation: <span id="answer"></span></p>
-            <p>Solve <span id="problem">ax^2 + bx + c = 0</span>.</p>
+            <div id="preview" class = "hideMe"></div>
             <div id = "screen1Button" class = "goButton" onclick="screen2()">Continue</div>
             <!-- <span id="problem">ax^2 + bx + c = 0</span> -->
 
@@ -44,12 +45,18 @@
                   console.log(answer.latex());
               }
 
+              function makePreview() {
+                  input = answer.latex().replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                  $('#preview').html("$$" + input + "$$");
+                  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
+                }
+
               function screen2(){
                 saveEquation();
                 $("#answerWraper").addClass("hideMe");
                 $("#screen1Button").addClass("hideMe");
-                var problemSpan = document.getElementById('problem');
-                MQ.StaticMath(problemSpan);
+                $("#preview").removeClass("hideMe");
+                makePreview();
               }
 
             </script>
@@ -60,10 +67,6 @@
           <div id = "input2" class = "inputBox"> </div>
         </div>
     </div>
-
-    <textarea id="input" rows="8">\sin^2x + \cos^2x = 1</textarea>
-
-    <div id="preview"></div>
 
 </div>
 </body>
