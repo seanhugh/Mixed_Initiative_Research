@@ -106,6 +106,18 @@ div#controls {
   padding: 20px 0px;
 }
 
+.toolbar{
+  background: #03a9f4;
+  color: white;
+  border-radius: 2px;
+}
+
+.toolbar p {
+    width: 250px;
+    font-family: arial;
+    font-size: 14px;
+}
+
 /* Hover Animation */
 
 @-ms-keyframes wiggle{0%{-ms-transform:rotate(1deg);}50%{-ms-transform:rotate(-1deg);}100%{-ms-transform:rotate(1deg);}}
