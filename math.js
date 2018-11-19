@@ -2,7 +2,7 @@ $(document).ready(function() {
   window.MATH = {};
 
   var MQ = MathQuill.getInterface(2);
-  MQ.StaticMath($('#problem')[0]);
+  //MQ.StaticMath($('#problem')[0]);
   MATH.entry = MQ.MathField($('#entryBox')[0], {
     handlers: {
       edit: function() {
