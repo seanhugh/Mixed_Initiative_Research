@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href= "{{ url_for('static',filename='css/styles.css') }}">
+  <link rel="stylesheet" href= "{{ url_for('static',filename='css/mathquill.css') }}" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{ url_for('static',filename='js/mathquill.js') }}"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ["\\(","\\)"]] } });
+  </script>
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body bgcolor="#edf0f2">
+  <script src="{{ url_for('static',filename='js/math.js') }}"></script>
+  <div id="container"><!-- flex container -->
+    <img src="{{ url_for('static',filename='img/logo.svg') }}" class="logo"/>
+    <div class="box" id="bluebox"><!-- flex item -->
+
+      <div class="inputScreen">
+
+        <div class = "toolbar">
+          <p>Please Enter an Equation Below:</p>
+        </div>
+
+        <p id="entryWrapper"> Input Equation: <span id="entryBox"></span></p>
+
+        <div id="preview" style="display: none;"></div>
+
+        <div id="continueButton" class="goButton">
+          Continue
+        </div>
+
+        <div id="controls" style="display: none;">
+          <div class="myButton">divide</div>
+          <div class="myButton">factor</div>
+          <div class="myButton">multiply</div>
+        </div>
+        <!-- <span id="problem">ax^2 + bx + c = 0</span> -->
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
