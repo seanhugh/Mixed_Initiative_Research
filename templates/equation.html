@@ -12,6 +12,14 @@
 </head>
 <body bgcolor="#edf0f2">
   <script src="{{ url_for('static',filename='js/math.js') }}"></script>
+
+  <script type="text/javascript">
+
+
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
+
+
+  </script>
   <div id="container"><!-- flex container -->
     <img src="{{ url_for('static',filename='img/logo.svg') }}" class="logo"/>
     <div class="box" id="bluebox"><!-- flex item -->
@@ -19,13 +27,15 @@
       <div class="inputScreen">
 
         <div class = "toolbar">
-          <p>Please Enter an Equation Below:</p>
+          <p>Equation Tools:</p>
         </div>
 
-        <p id="entryWrapper"> Input Equation: <span id="entryBox"></span></p>
+        <div id="preview"></div>
 
-        <div id="continueButton" class="goButton">
-          Continue
+        <div id="controls">
+          <div class="myButton">divide</div>
+          <div class="myButton">factor</div>
+          <div class="myButton">multiply</div>
         </div>
         <!-- <span id="problem">ax^2 + bx + c = 0</span> -->
       </div>
