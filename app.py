@@ -49,6 +49,7 @@ def show_index():
     print("got equation: " + startEquation)
 
     startState = model.init(startEquation)
+
     return render_template('view.html', state=startState)
 
 @app.route('/update', methods=['POST'])
@@ -59,5 +60,7 @@ def update_model():
   print("got update: " + str(viewUpdate))
 
   nextState = model.update(viewUpdate["action"], viewUpdate["state"])
+  print("update is: " + str(nextState))
+
   return flask.jsonify(nextState)
 
