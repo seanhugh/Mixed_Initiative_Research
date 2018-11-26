@@ -4,22 +4,21 @@
   <link rel="stylesheet" href= "{{ url_for('static',filename='css/styles.css') }}">
   <link rel="stylesheet" href= "{{ url_for('static',filename='css/mathquill.css') }}" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://underscorejs.org/underscore-min.js"></script>
   <script src="{{ url_for('static',filename='js/mathquill.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ["\\(","\\)"]] } });
   </script>
-  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body bgcolor="#edf0f2">
-  <script src="{{ url_for('static',filename='js/math.js') }}"></script>
-
   <script type="text/javascript">
-
-
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
-
-
+    // initialize view state with server data
+    window.INIT_STATE = {{ state | tojson }};
   </script>
+
+  <script src="{{ url_for('static',filename='js/view.js') }}"></script>
+
   <div id="container"><!-- flex container -->
     <img src="{{ url_for('static',filename='img/logo.svg') }}" class="logo"/>
     <div class="box" id="bluebox"><!-- flex item -->
@@ -30,12 +29,23 @@
           <p>Equation Tools:</p>
         </div>
 
+<<<<<<< HEAD:templates/equation.html
         <div id="preview">{{data}}</div>
 
         <div id="controls">
           <div class="myButton action_button">divide</div>
           <div class="myButton action_button">factor</div>
           <div class="myButton action_button">multiply</div>
+=======
+        <div id="equationDiv">
+          <div id="equation" style="display: none;"></div>
+        </div>
+
+        <div id="controls" style="display: none;">
+          <div class="controlButton">divide</div>
+          <div class="controlButton">factor</div>
+          <div class="controlButton">multiply</div>
+>>>>>>> 76c331d7fe53d7b42f6a247641723b782e25c06f:templates/view.html
         </div>
         <!-- <span id="problem">ax^2 + bx + c = 0</span> -->
       </div>
