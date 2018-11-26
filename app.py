@@ -16,18 +16,6 @@
 #        /js
 #        /img
 
-### STRUCTURE OF THE JSON
-#
-# DISPLAY JSON:
-# eq: equation in latek
-# tree: the current tree
-# location: location within the tree
-# buttons: list of buttons (use IDS for buttons)
-#
-# ACTION JSON:
-# Button clicked: id of button clicked
-# Location in tree: location of cursor within tree
-
 from flask import Flask, render_template, request, url_for
 import os
 

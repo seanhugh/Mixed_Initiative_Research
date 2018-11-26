@@ -51,8 +51,6 @@ $(document).ready(function() {
     return input
   }
 
-
-
   MATH.showControls = function () {
     MATH.saveEquation();
     // $('#entryWrapper').hide();
@@ -62,10 +60,33 @@ $(document).ready(function() {
 
     myEq = MATH.makePreview();
 
-    post('/', {equation:  myEq});
+    post('/', {equation:  myEq,
+               button_clicked: 0,
+               tree_loc: 0});
 
     // window.location.href = '/equation';
   }
 
+
+
+  MATH.saveEquation2 = function () {
+    entry = MQ.MathField($('#entryBox')[0]);
+  }
+
+  MATH.sendData = function () {
+    MATH.saveEquation2();
+    myEq = MATH.makePreview();
+
+    post('/', {equation:  myEq,
+               button_clicked: 0,
+               tree_loc: 0});
+  }
+
+  // Button Actions
+
   $('#continueButton').on('click', MATH.showControls);
+  $('.action_button').on('click', MATH.sendData);
+
+
+
 });
