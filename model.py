@@ -1,4 +1,6 @@
 import sympy
+from sympy import *
+from latex2sympy.process_latex import *
 
 # effectively the model in MVC
 # takes changes from the server (controller) and applies them to model
@@ -12,11 +14,17 @@ import sympy
 
 # generate new state from starting equation
 def init(eq):
+  # parse into sympy expressoin
+  e = process_sympy(eq)
+
   return {
-    "equation" : "$$" + eq + "0$$",
+    "equation" : "0:\\quad " + sympy.latex(e),
     "buttons" : ["divide", "factor", "multiply"],
     "state" : {
-      "equation" : (eq, 0),
+      "equation" : {
+        "srepr" : sympy.srepr(e),
+        "count" : 0
+      },
       "zipper" : []
     }
   }
@@ -27,14 +35,17 @@ def init(eq):
 
 # generate updated state from old state and given view action
 def update(action, state):
-  eq = state["equation"][0]
-  count = state["equation"][1]
+  e = eval(state["equation"]["srepr"]) # XXX LOL dangerous af
+  count = state["equation"]["count"] + 1
 
   return {
-    "equation" : "$$" + eq + str(count + 1) +  "$$",
-    "buttons" : ["divide", "factor", "multiply", "do"+str(count + 1)],
+    "equation" : str(count) + ":\\quad " + sympy.latex(e),
+    "buttons" : ["divide", "factor", "multiply"],
     "state" : {
-      "equation" : (eq, count + 1),
+      "equation" : {
+        "srepr" : sympy.srepr(e),
+        "count" : count
+      },
       "zipper" : []
     }
   }

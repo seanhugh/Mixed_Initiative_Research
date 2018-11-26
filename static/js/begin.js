@@ -12,7 +12,7 @@ $(document).ready(function() {
 
   // get equation as latex
   BEGIN.getEquation = function () {
-    return BEGIN.entry.latex().replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return BEGIN.entry.latex();
   };
 
   // fetch next page
