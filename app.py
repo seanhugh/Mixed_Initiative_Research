@@ -33,26 +33,31 @@ from flask import Flask, render_template, request, url_for
 import flask
 import os
 
+import model
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def show_index():
   if request.method == 'GET':
-    print('get index')
+    # begin.html, empty mathquill entry
     return render_template('begin.html')
-  else:
-    print('post begin')
-    myData = request.form['equation']
-    return render_template('view.html', data = {"equation" : myData})
 
-state = 0
+  else:
+    # render view.html with initial state baked in
+    startEquation = request.form['equation']
+    print("got equation: " + startEquation)
+
+    startState = model.init(startEquation)
+    return render_template('view.html', state=startState)
 
 @app.route('/update', methods=['POST'])
 def update_model():
   global state
-  print('update')
-  myData = request.get_json()
-  state += 1
-  print(myData)
-  return flask.jsonify({"equation" : str(state)})
+
+  viewUpdate = request.get_json()
+  print("got update: " + str(viewUpdate))
+
+  nextState = model.update(viewUpdate["action"], viewUpdate["state"])
+  return flask.jsonify(nextState)
 

@@ -13,8 +13,8 @@
 </head>
 <body bgcolor="#edf0f2">
   <script type="text/javascript">
-    // initialize model with server data
-    window.INIT_MODEL = {{data | tojson}};
+    // initialize view state with server data
+    window.INIT_STATE = {{ state | tojson }};
   </script>
 
   <script src="{{ url_for('static',filename='js/view.js') }}"></script>

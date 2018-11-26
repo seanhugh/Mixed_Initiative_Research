@@ -12,9 +12,7 @@ $(document).ready(function() {
 
   // get equation as latex
   BEGIN.getEquation = function () {
-    input = BEGIN.entry.latex().replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    input = ("$$" + input + "$$");
-    return input;
+    return BEGIN.entry.latex().replace(/</g, "&lt;").replace(/>/g, "&gt;");
   };
 
   // fetch next page

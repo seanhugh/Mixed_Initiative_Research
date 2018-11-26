@@ -12,10 +12,9 @@ $(document).ready(function() {
   });
 
   // update displayed equation
-  VIEW.updateEquation = function (model) {
+  VIEW.updateEquation = function (equation) {
     // update equation
-    var eq = model.equation;
-    $('#equation').html("$$" + eq + "$$");
+    $('#equation').html("$$" + equation + "$$");
 
     // re-render
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "equation", function () {
@@ -27,46 +26,43 @@ $(document).ready(function() {
     return _.template('<div class="controlButton"><%= txt %></div>')({ txt : txt });
   }
 
-  // install button click handlers
-  VIEW.installControlButtonHandlers = function () {
+  // update displayed controls
+  VIEW.updateControls = function (buttons) {
+    // make new buttons
+    var newButtons = buttons.map(VIEW.makeControlButton);
+
+    // install new buttons
+    $('#controls').empty();
+    $('#controls').append(newButtons);
+
+    // install button click handlers
     $('.controlButton').on("click", function (e) {
       name = $(this).text();
       console.log("clicked " + name);
 
       VIEW.postAction(name, VIEW.update);
     });
-  };
-
-  // update displayed controls
-  VIEW.updateControls = function (model) {
-    // make new buttons
-    var newButtons = [];
-    newButtons.push(VIEW.makeControlButton('divide'));
-    newButtons.push(VIEW.makeControlButton('factor'));
-    newButtons.push(VIEW.makeControlButton('multiply'));
-
-    // install new buttons
-    $('#controls').empty();
-    $('#controls').append(newButtons);
-    VIEW.installControlButtonHandlers();
 
     $('#controls').show();
   };
 
   // update display with given model
-  VIEW.update = function (model) {
-    console.log(model);
+  VIEW.update = function (update) {
+    // expected format: { equation, buttons, state }
+    console.log("got update from server " + update);
+
+    VIEW.curState = update.state;
 
     $('#equation').hide();
     $('#controls').hide();
 
-    VIEW.updateEquation(model);
-    VIEW.updateControls(model);
+    VIEW.updateEquation(update.equation);
+    VIEW.updateControls(update.buttons);
   };
 
   // send action to server
-  VIEW.postAction = function (params, callback, method) {
-    console.log("posting " + params);
+  VIEW.postAction = function (act, callback, method) {
+    console.log("posting action " + act);
 
     method = method || "post"; // Set method to post by default if not specified.
 
@@ -79,15 +75,16 @@ $(document).ready(function() {
       if (status === 200) {
         callback(xhr.response);
       } else {
-        alert("fail");
+        console.log("got bad response from server:\n" + xhr.response);
       }
     };
 
-    xhr.send(JSON.stringify({ "email": "hello@user.com",
-                              "action": params,
-                              "response": { "name": "Tester" } }));
+    xhr.send(JSON.stringify({
+      "action": act,
+      "state": VIEW.curState
+    }));
   };
 
   // update display with initial model
-  VIEW.update(window.INIT_MODEL);
+  VIEW.update(window.INIT_STATE);
 });
