@@ -13,18 +13,53 @@ $(document).ready(function() {
 
   // update displayed equation
   VIEW.updateEquation = function (model) {
+    // update equation
     var eq = model.equation;
     $('#equation').html("$$" + eq + "$$");
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "equation"]);
+
+    // re-render
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "equation", function () {
+      $('#equation').show();
+    }]);
   }
+
+  VIEW.makeControlButton = function (txt) {
+    return _.template('<div class="controlButton"><%= txt %></div>')({ txt : txt });
+  }
+
+  // install button click handlers
+  VIEW.installControlButtonHandlers = function () {
+    $('.controlButton').on("click", function (e) {
+      name = $(this).text();
+      console.log("clicked " + name);
+
+      VIEW.postAction(name, VIEW.update);
+    });
+  };
 
   // update displayed controls
   VIEW.updateControls = function (model) {
+    // make new buttons
+    var newButtons = [];
+    newButtons.push(VIEW.makeControlButton('divide'));
+    newButtons.push(VIEW.makeControlButton('factor'));
+    newButtons.push(VIEW.makeControlButton('multiply'));
+
+    // install new buttons
+    $('#controls').empty();
+    $('#controls').append(newButtons);
+    VIEW.installControlButtonHandlers();
+
+    $('#controls').show();
   };
 
   // update display with given model
   VIEW.update = function (model) {
     console.log(model);
+
+    $('#equation').hide();
+    $('#controls').hide();
+
     VIEW.updateEquation(model);
     VIEW.updateControls(model);
   };
@@ -52,14 +87,6 @@ $(document).ready(function() {
                               "action": params,
                               "response": { "name": "Tester" } }));
   };
-
-  // install button click handlers
-  $('.controlButton').on("click", function (e) {
-    name = $(this).text();
-    console.log("clicked " + name);
-
-    VIEW.postAction(name, VIEW.update);
-  });
 
   // update display with initial model
   VIEW.update(window.INIT_MODEL);
