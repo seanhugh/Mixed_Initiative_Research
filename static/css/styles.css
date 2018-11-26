@@ -85,13 +85,13 @@ img.equation {
 
 /* Dynamic Stuff */
 
-#preview {
+#equation {
   margin-top: 1em;
   padding: 1em;
   background-color: #E3CBAC;
 }
 
-.myButton {
+.controlButton {
   padding: 5px;
   width: 77px;
   background: #03a9f4;

@@ -5,13 +5,13 @@
   <link rel="stylesheet" href= "{{ url_for('static',filename='css/mathquill.css') }}" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="{{ url_for('static',filename='js/mathquill.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ["\\(","\\)"]] } });
   </script>
-  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body bgcolor="#edf0f2">
-  <script src="{{ url_for('static',filename='js/math.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/begin.js') }}"></script>
   <div id="container"><!-- flex container -->
     <img src="{{ url_for('static',filename='img/logo.svg') }}" class="logo"/>
     <div class="box" id="bluebox"><!-- flex item -->
@@ -24,7 +24,7 @@
 
         <p id="entryWrapper"> Input Equation: <span id="entryBox"></span></p>
 
-        <div id="continueButton" class="goButton">
+        <div id="beginButton" class="goButton">
           Continue
         </div>
         <!-- <span id="problem">ax^2 + bx + c = 0</span> -->

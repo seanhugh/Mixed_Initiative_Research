@@ -10,6 +10,7 @@
 #    - app.py
 #    /templates
 #        - index.html
+#        - equation.html
 #    /static
 #        /css
 #            - styles.css
@@ -29,6 +30,7 @@
 # Location in tree: location of cursor within tree
 
 from flask import Flask, render_template, request, url_for
+import flask
 import os
 
 app = Flask(__name__)
@@ -36,9 +38,21 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def show_index():
   if request.method == 'GET':
-    return render_template("index.html")
+    print('get index')
+    return render_template('begin.html')
   else:
+    print('post begin')
     myData = request.form['equation']
-    return render_template("equation.html", data = myData)
-    # return render_template("equation.html", data = myData)
+    return render_template('view.html', data = {"equation" : myData})
+
+state = 0
+
+@app.route('/update', methods=['POST'])
+def update_model():
+  global state
+  print('update')
+  myData = request.get_json()
+  state += 1
+  print(myData)
+  return flask.jsonify({"equation" : str(state)})
 

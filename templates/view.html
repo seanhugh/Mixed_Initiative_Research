@@ -5,21 +5,19 @@
   <link rel="stylesheet" href= "{{ url_for('static',filename='css/mathquill.css') }}" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="{{ url_for('static',filename='js/mathquill.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ["\\(","\\)"]] } });
   </script>
-  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body bgcolor="#edf0f2">
-  <script src="{{ url_for('static',filename='js/math.js') }}"></script>
-
   <script type="text/javascript">
-
-
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
-
-
+    // initialize model with server data
+    window.INIT_MODEL = {{data | tojson}};
   </script>
+
+  <script src="{{ url_for('static',filename='js/view.js') }}"></script>
+
   <div id="container"><!-- flex container -->
     <img src="{{ url_for('static',filename='img/logo.svg') }}" class="logo"/>
     <div class="box" id="bluebox"><!-- flex item -->
@@ -30,12 +28,12 @@
           <p>Equation Tools:</p>
         </div>
 
-        <div id="preview"></div>
+        <div id="equation"></div>
 
         <div id="controls">
-          <div class="myButton">divide</div>
-          <div class="myButton">factor</div>
-          <div class="myButton">multiply</div>
+          <div class="controlButton">divide</div>
+          <div class="controlButton">factor</div>
+          <div class="controlButton">multiply</div>
         </div>
         <!-- <span id="problem">ax^2 + bx + c = 0</span> -->
       </div>
