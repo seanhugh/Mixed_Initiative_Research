@@ -42,11 +42,12 @@ $(document).ready(function() {
     }
 
     // install button click handlers
-    $('.treeButton').on("click", function (e) {
-      name = $(this).attr('id');
-      console.log("clicked " + name);
+    // $('.treeButton').on("click", function (e) {
+    //   name = $(this).attr('id');
+    //   console.log("clicked " + name);
+    //   console.log("I HAVE BEEN CALLEDSADASD " + name);
 
-      VIEW.postAction(name, VIEW.update);
+    //   VIEW.postAction(name, VIEW.update);
     });
 
   }
