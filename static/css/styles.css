@@ -113,6 +113,8 @@ div#controls {
   display: flex;
 }
 
+/* CSS for the blue toolbar at the top of the UI */
+
 .toolbar p {
     width: 250px;
     font-family: arial;
@@ -130,6 +132,34 @@ img.backButton {
 .backButton:hover {
     opacity: .8;
     cursor: pointer;
+}
+
+/* CSS for the tree manipulation Buttons */
+
+.row1, .row2 {
+    display: flex;
+    justify-content: center;
+}
+
+.row1{
+  margin-top: 5px;
+}
+
+.treeButton {
+    background: #b7b7b7;
+    width: 50px;
+    height: 25px;
+    margin: 3px;
+}
+
+.treeButton:hover {
+    background: #939393;
+    cursor: pointer;
+}
+
+.inactive {
+    opacity: .3;
+    pointer-events: none;
 }
 
 /* Hover Animation */

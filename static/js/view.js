@@ -28,6 +28,7 @@ $(document).ready(function() {
 
   // update displayed controls
   VIEW.updateControls = function (buttons) {
+
     // make new buttons
     var newButtons = buttons.map(VIEW.makeControlButton);
 
@@ -57,6 +58,7 @@ $(document).ready(function() {
     $('#controls').hide();
 
     VIEW.updateEquation(update.equation);
+
     VIEW.updateControls(update.buttons);
   };
 
@@ -66,7 +68,7 @@ $(document).ready(function() {
 
     method = method || "post"; // Set method to post by default if not specified.
 
-    var xhr = new XMLHttpRequest();   // new HttpRequest instance 
+    var xhr = new XMLHttpRequest();   // new HttpRequest instance
     xhr.open("POST", "/update");
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.responseType = 'json';
