@@ -110,12 +110,26 @@ div#controls {
   background: #03a9f4;
   color: white;
   border-radius: 2px;
+  display: flex;
 }
 
 .toolbar p {
     width: 250px;
     font-family: arial;
     font-size: 14px;
+}
+
+img.backButton {
+    width: 30px;
+    margin: 5px;
+    margin-top: 6px;
+    margin-left: 12px;
+    fill: white;
+}
+
+.backButton:hover {
+    opacity: .8;
+    cursor: pointer;
 }
 
 /* Hover Animation */

@@ -52,3 +52,6 @@ def update_model():
 
   return flask.jsonify(nextState)
 
+
+if __name__ == "__main__":
+  app.run()
