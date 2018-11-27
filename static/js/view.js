@@ -26,8 +26,40 @@ $(document).ready(function() {
     return _.template('<div class="controlButton"><%= txt %></div>')({ txt : txt });
   }
 
+  VIEW.updateTreeButtons = function (buttons) {
+
+    possibleButtons = ["up","down","left","right"]
+
+    for (var i = 0; i < possibleButtons.length; i++) {
+      var currentButton = possibleButtons[i];
+      var className = ("#").concat(currentButton);
+        if (buttons.indexOf(currentButton) >= 0) {
+            //this button is active
+            $(className).removeClass( "inactive" )
+        } else{
+          $(className).addClass( "inactive" )
+        }
+    }
+
+    // install button click handlers
+    $('.treeButton').on("click", function (e) {
+      name = $(this).attr('id');
+      console.log("clicked " + name);
+
+      VIEW.postAction(name, VIEW.update);
+    });
+
+  }
+
   // update displayed controls
-  VIEW.updateControls = function (buttons) {
+  VIEW.updateControls = function (buttons_array) {
+
+    // seperate tree buttons and other buttons
+    var buttons = buttons_array[0]
+    var tree_buttons = buttons_array[1]
+
+    // Update the tree buttons
+    VIEW.updateTreeButtons(tree_buttons);
 
     // make new buttons
     var newButtons = buttons.map(VIEW.makeControlButton);

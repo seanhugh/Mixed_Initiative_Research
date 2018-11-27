@@ -13,18 +13,19 @@ def get_actions(e, zipper):
   print("subexprs", se)
 
   actions = ["simplify"]
+  tree_actions = []
 
   # collect movement actions
   if non_empty(hd(se)):
-    actions += ["move down"]
+    tree_actions += ["down"]
 
   if len(zipper) != 0:
-    actions += ["move up"]
+    tree_actions += ["up"]
 
   if not is_none(left_sib(e, zipper)):
-    actions += ["move left"]
+    tree_actions += ["left"]
   if not is_none(right_sib(e, zipper)):
-    actions += ["move right"]
+    tree_actions += ["right"]
 
   # collect editing actions
   # commuting
@@ -55,18 +56,18 @@ def get_actions(e, zipper):
             [is_none, is_a(Eq)])):
     actions += ["div from both sides"]
 
-  return actions
+  return [actions, tree_actions]
 
 # apply an action at this location in an expression
 def apply_action(act, e, zipper):
   se = get_subexprs(e, zipper)
-  if act == "move down":
+  if act == "down":
     return e, [0] + zipper
-  elif act == "move up":
+  elif act == "up":
     return e, tl(zipper)
-  elif act == "move left":
+  elif act == "left":
     return e, [hd(zipper) - 1] + tl(zipper)
-  elif act == "move right":
+  elif act == "right":
     return e, [hd(zipper) + 1] + tl(zipper)
   elif act == "commute left":
     l = list(se[1].args)
