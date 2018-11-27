@@ -1,78 +1,62 @@
 import sympy
 from sympy import *
 from latex2sympy.process_latex import *
+from zipper import *
 
 # effectively the model in MVC
 # takes changes from the server (controller) and applies them to model
 
-# XXX need hole semantics library for this stuff
-# esp when it comes to generating latex
-
-# XXX we're only gonna support equality, addition, multiplication, power for now...
-
-def get_subexprs(e, zipper):
-  if len(zipper) == 0:
-    return [e]
-
-  return [e] + get_subexprs(e.args[zipper[0]], zipper[1:])
-
 # what are the actions available at this location?
 # XXX this would be so much better if our zippers were typed...
-# XXX alas python doesn't have nice matching; but we could fix this
 def get_actions(e, zipper):
   se = get_subexprs(e, zipper)
 
   actions = ["simplify"]
 
   # collect movement actions
-  if se[-1].args != ():
+  if non_empty(hd(se)):
     actions += ["move down"]
 
   if len(zipper) != 0:
     actions += ["move up"]
 
-  if len(se) >= 2: # we are at least one expression in
-    if zipper[-1] > 0:
-      actions += ["move left"]
-    if zipper[-1] < len(se[-2].args) - 1:
-      actions += ["move right"]
+  if left_sib(e, zipper):
+    actions += ["move left"]
+  if right_sib(e, zipper):
+    actions += ["move right"]
 
   # collect editing actions
   # commuting
-  if len(se) >= 2 and (se[-2].func == "Add" or se[-2].func == "Mul" or se[-2].func == "Eq"):
-    if zipper[-1] > 0:
+  if match_pre([parent(e, zipper)], [commutative]):
+    if left_sib(e, zipper):
       actions += ["commute left"]
-    if zipper[-1] < len(se[-2].args) - 1:
+    if right_sib(e, zipper):
       actions += ["commute right"]
 
   # distributing -- currently only when you're a term in a mul
   # and your right term is an add
-  if len(se) >= 2:
-    if (se[-2].func == "Mul" and
-        zipper[-1] < len(se[-2].args) - 1 and
-        se[-2].args[zipper[-1] + 1].func == "Add"):
-      actions += ["distribute"]
+  if match_pre([parent(e, zipper), right_sib(e, zipper)], [eq(Mul), eq(Add)]):
+    actions += ["distribute right"]
 
   # taking off of both sides of an equality
-  if len(se) >= 3:
-    if se[-3].func == "Eq":
-      if se[-2].func == "Add":
-        actions += ["sub from both sides"]
-      elif se[-2].func == "Mul":
-        actions += ["div from both sides"]
+  if match_pre([grandparent(e, zipper), parent(e, zipper)], [eq(Eq), eq(Add)]):
+    actions += ["sub from both sides"]
+
+  if match_pre([grandparent(e, zipper), parent(e, zipper)], [eq(Eq), eq(Mul)]):
+    actions += ["div from both sides"]
 
   return actions
 
 # apply an action at this location in an expression
 def apply_action(act, e, zipper):
   if act == "move down":
-    return e, zipper + [0]
+    return e, [0] + zipper
   elif act == "move up":
-    return e, zipper[:-1]
+    return e, tl(zipper)
   elif act == "move left":
-    return e, zipper[:-1] + [zipper[-1] - 1]
+    return e, [hd(zipper) - 1] + tl(zipper)
   elif act == "move right":
-    return e, zipper[:-1] + [zipper[-1] + 1]
+    return e, [hd(zipper) + 1] + tl(zipper)
   else:
     return e, zipper # do nothing for now
 
@@ -113,7 +97,7 @@ def update(action, state):
   count = state["equation"]["count"] + 1 # increment state
 
   return {
-    "equation" : str(count) + ":\\quad " + sympy.latex(e2) + " \\quad " + sympy.latex(get_subexprs(e2, zipper2)[-1]),
+    "equation" : str(count) + ":\\quad " + sympy.latex(e2) + " \\quad " + sympy.latex(get_subexprs(e2, zipper2)[0]),
     "buttons" : get_actions(e2, zipper2),
     "state" : {
       "equation" : {

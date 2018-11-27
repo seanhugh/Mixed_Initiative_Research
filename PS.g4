@@ -5,6 +5,7 @@ options {
 }
 
 WS: [ \t\r\n]+ -> skip;
+SPACE: '\\ ' -> skip;
 
 ADD: '+';
 SUB: '-';
