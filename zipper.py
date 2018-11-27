@@ -21,11 +21,18 @@ def get_subexprs(e, zipper):
   return get_subexprs(e.args[zipper[-1]], zipper[:-1]) + [e]
 
 
+# replace zipper-selected expression with given subexpression
+def fill(e, se, zipper):
+  if len(zipper) == 0:
+    return se
+
+  l = list(e.args)
+  l[zipper[-1]] = fill(l[zipper[-1]], se, zipper[:-1])
+
+  return e.func(*l)
+
 def non_empty(e):
   return e.args != ()
-
-def commutative(e):
-  return e.func == Add or e.func == Mul or e.func == Eq
 
 
 def grandparent(e, zipper):
@@ -62,15 +69,28 @@ def right_sib(e, zipper):
 
 
 # match a list of nodes with list of predicates
-def match_pre(l, c):
+def match(l, c):
   for l, c in zip(l, c):
-    if l == None:
-      return False
-    if not c(l.func):
+    if not c(l):
       return False
   return True
 
-def eq(c):
+def is_a(c):
   def e(x):
-    return c == x
+    if x == None:
+      return False
+    return x.func == c
+  return e
+
+def is_none(x):
+  return x == None
+
+def orp(l):
+  def e(x):
+    if x == None:
+      return False
+    for p in l:
+      if p(x):
+        return True
+    return False
   return e
