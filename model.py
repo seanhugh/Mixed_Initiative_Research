@@ -11,10 +11,6 @@ from zipper import *
 def get_actions(e, zipper):
   se = get_subexprs(e, zipper)
   print("subexprs", se)
-  print("what is dis se", se)
-  print("what is dis hd se", hd(se))
-  print("what is dis e", e)
-  print("what is dis zipper", zipper)
 
   actions = ["simplify"]
   tree_actions = []

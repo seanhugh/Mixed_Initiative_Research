@@ -42,6 +42,10 @@ $(document).ready(function() {
 
   // post equation to server to start interaction
   $('#beginButton').on('click', function () {
-    BEGIN.postBegin('/', { equation: BEGIN.getEquation() });
+    if(BEGIN.entry.latex()){
+      BEGIN.postBegin('/', { equation: BEGIN.getEquation() });
+    } else{
+      alert("Please enter an equation!")
+    }
   });
 });
