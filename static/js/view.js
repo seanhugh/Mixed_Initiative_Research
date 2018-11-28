@@ -41,15 +41,6 @@ $(document).ready(function() {
         }
     }
 
-    // install button click handlers
-    // $('.treeButton').on("click", function (e) {
-    //   name = $(this).attr('id');
-    //   console.log("clicked " + name);
-    //   console.log("I HAVE BEEN CALLEDSADASD " + name);
-
-    //   VIEW.postAction(name, VIEW.update);
-    });
-
   }
 
   // update displayed controls
@@ -122,4 +113,13 @@ $(document).ready(function() {
 
   // update display with initial model
   VIEW.update(window.INIT_STATE);
+
+  // Install button handlers
+    $('.treeButton').on("click", function (e) {
+      name = $(this).attr('id');
+      console.log("clicked " + name);
+
+      VIEW.postAction(name, VIEW.update);
+    });
+
 });
