@@ -89,6 +89,8 @@ img.equation {
   margin-top: 1em;
   padding: 1em;
   background-color: #E3CBAC;
+  position: relative;
+  height: 50px;
 }
 
 .controlButton {
@@ -125,13 +127,33 @@ img.backButton {
     width: 30px;
     margin: 5px;
     margin-top: 6px;
-    margin-left: 12px;
+    margin-left: 10px;
     fill: white;
 }
 
 .backButton:hover {
     opacity: .8;
     cursor: pointer;
+}
+
+.floatButton:hover {
+    opacity: .6;
+    cursor: pointer;
+}
+
+.exportButton {
+      opacity: 0.9;
+    margin-left: auto;
+    margin-right: 10px;
+    width: 25px;
+    margin: 5px;
+    margin-top: 9px;
+}
+
+.floatButton {
+    position: absolute;
+    top: 0;
+    right: 10px;
 }
 
 /* CSS for the tree manipulation Buttons */

@@ -111,6 +111,11 @@ $(document).ready(function() {
     }));
   };
 
+  // send action to server
+  VIEW.exportLatex = function () {
+    alert(VIEW.curState.equation.raw_eq);
+  };
+
   // update display with initial model
   VIEW.update(window.INIT_STATE);
 

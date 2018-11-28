@@ -170,7 +170,8 @@ def init(eq):
     "state" : {
       "equation" : {
         "srepr" : sympy.srepr(e),
-        "count" : 0
+        "count" : 0,
+        "raw_eq" : str(latex(e)),
       },
       "zipper" : [] # starting at top level
     }
@@ -194,7 +195,8 @@ def update(action, state):
     "state" : {
       "equation" : {
         "srepr" : sympy.srepr(e2),
-        "count" : count
+        "count" : count,
+        "raw_eq" : str(latex(e2)),
       },
       "zipper" : zipper2
     }

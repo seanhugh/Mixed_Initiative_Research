@@ -29,16 +29,19 @@
       <div class="inputScreen">
 
         <div class = "toolbar">
-          <div class = "backButton" onclick="location.href = '.';">
+          <div class = "toolButton backButton" onclick="location.href = '.';">
             <img src="{{ url_for('static',filename='img/back_button.svg') }}" class="backButton"/>
           </div>
 
-        <p>Equation Tools:</p>
+          <p>Equation Tools:</p>
 
         </div>
 
         <div id="equationDiv">
           <div id="equation" style="display: none;"></div>
+          <div class = "floatButton" onclick="VIEW.exportLatex()">
+            <img src="{{ url_for('static',filename='img/export_latex.svg') }}" class="exportButton"/>
+          </div>
         </div>
 
         <!-- Buttons for moving around the equation tree -->
@@ -59,7 +62,7 @@
               <img src="{{ url_for('static',filename='img/right_arrow.svg') }}" class="treeArrow"/>
             </div>
           </div>
-        <div>
+        </div>
 
         <!-- Buttons for equation manipulation -->
         <div id="controls" style="display: none;">
@@ -67,7 +70,7 @@
           <div class="controlButton">factor</div>
           <div class="controlButton">multiply</div>
         </div>
-        <!-- <span id="problem">ax^2 + bx + c = 0</span> -->
+
       </div>
 
     </div>
