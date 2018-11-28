@@ -148,6 +148,14 @@ def apply_action(act, e, zipper):
 
   return e, zipper # do nothing for now
 
+
+# super janky selection highlighting via hole punch
+# really hope nobody names their variable ASDFHOLEASDF
+def highlight_selection(e, zipper):
+  e2 = sympy.latex(fill(e, Symbol('ASDFHOLEASDF'), zipper))
+  se = sympy.latex(get_subexprs(e, zipper)[0])
+  return e2.replace('ASDFHOLEASDF', "\\textcolor{red}{" + se + "}")
+
 # state returned by these methods:
 # - equation (to be displayed)
 # - buttons (actions that can be taken from here)
@@ -161,7 +169,7 @@ def init(eq):
   e = process_sympy(eq)
 
   return {
-    "equation" : "0:\\quad " + sympy.latex(e) + " \\quad top",
+    "equation" : "0:\\quad " + highlight_selection(e, []),
     "buttons" : get_actions(e, []),
     "state" : {
       "equation" : {
@@ -185,7 +193,7 @@ def update(action, state):
   count = state["equation"]["count"] + 1 # increment state
 
   return {
-    "equation" : str(count) + ":\\quad " + sympy.latex(e2) + " \\quad " + sympy.latex(get_subexprs(e2, zipper2)[0]),
+    "equation" : str(count) + ":\\quad " + highlight_selection(e2, zipper2),
     "buttons" : get_actions(e2, zipper2),
     "state" : {
       "equation" : {
