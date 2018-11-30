@@ -184,6 +184,15 @@ img.backButton {
     pointer-events: none;
 }
 
+.treeExpand {
+  padding-top: 6px;
+  width: 45px;
+}
+
+.expando {
+  width: 65px;
+}
+
 /* Hover Animation */
 
 @-ms-keyframes wiggle{0%{-ms-transform:rotate(1deg);}50%{-ms-transform:rotate(-1deg);}100%{-ms-transform:rotate(1deg);}}
