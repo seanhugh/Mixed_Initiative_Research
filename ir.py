@@ -61,6 +61,10 @@ class AstNode:
   def to_sympy(self):
     raise Exception("unimplemented to_sympy!")
 
+  # special provisions for making highlight transparent
+  def unfold(self):
+    return self
+
   # assoc is binding strength of caller
   # if assoc is higher than your associativity, then you should parenthesize
   # e.g. mul will call down with assoc=10 or something
@@ -126,9 +130,9 @@ class Add(AstNode):
     contents = ""
     for i in self.args:
       # special handling for negations
-      if i.is_neg and not isinstance(i, Number):
+      if i.unfold().is_neg and not isinstance(i.unfold(), Number):
         contents += " - " + i.to_latex()
-      elif i.is_neg and isinstance(i, Number):
+      elif i.unfold().is_neg and isinstance(i.unfold(), Number):
         contents += i.to_latex()
       elif contents == "":
         contents = i.to_latex()
@@ -176,9 +180,9 @@ class Mul(AstNode):
 
     for i in self.args:
       # special handling for inversions
-      if isinstance(i, Pow) and i.args[1].is_neg:
+      if isinstance(i.unfold(), Pow) and i.unfold().args[1].is_neg:
         den_contents += " " + i.args[0].to_latex(10)
-      elif isinstance(i, Number) and num_contents != "":
+      elif isinstance(i.unfold(), Number) and num_contents != "":
         num_contents += " \\cdot " + i.to_latex(10)
       else:
         num_contents += " " + i.to_latex(10)
@@ -200,7 +204,7 @@ class Pow(AstNode):
   def to_sympy(self):
     return sympy.Pow(*list(map(lambda i: i.to_sympy(), self.args)))
   def to_latex(self, assoc=0):
-    return self.args[0].to_latex(100) + "^{" + self.args[0].to_latex() + "}"
+    return self.args[0].to_latex(100) + "^{" + self.args[1].to_latex() + "}"
 
 # special for powers of 1/something
 class Root(AstNode):
@@ -210,7 +214,7 @@ class Root(AstNode):
   def to_sympy(self):
     return sympy.root(*list(map(lambda i: i.to_sympy(), self.args)))
   def to_latex(self, assoc=0):
-    if self.args[1].n != 2:
+    if self.args[1].unfold().n != 2:
       return "\\sqrt[" + self.args[1].to_latex() + "]{" + self.args[0].to_latex() + "}"
     else:
       return "\\sqrt{" + self.args[0].to_latex() + "}"
@@ -246,6 +250,10 @@ class Function(AstNode):
 
 # no-op highlighter node
 class Highlight(AstNode):
+  def unfold(self):
+    return self.args[0]
+  def srepr(self):
+    return self.args[0].srepr()
   def to_sympy(self):
     return self.args[0].to_sympy()
   def to_latex(self, assoc=0):

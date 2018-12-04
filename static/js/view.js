@@ -28,6 +28,10 @@ $(document).ready(function() {
 
   VIEW.updateTreeButtons = function (buttons) {
 
+    if (!VIEW.curState.active) {
+      $('#tree_controls').hide();
+    }
+
     possibleButtons = ["up","down","left","right"]
 
     for (var i = 0; i < possibleButtons.length; i++) {

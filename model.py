@@ -30,7 +30,7 @@ def get_actions(e, zipper, ac):
 
   # if option 2 is active only return the simplify button
   if (ac == "false"):
-    return [actions, tree_actions]
+    return [actions, []]
 
   # collect editing actions
   # commuting
@@ -60,6 +60,8 @@ def get_actions(e, zipper, ac):
       match([grandparent(e, zipper), parent(e, zipper)],
             [is_none, is_a(Eq)])):
     actions += ["div from both sides"]
+
+  print(actions, tree_actions)
 
   return [actions, tree_actions]
 
