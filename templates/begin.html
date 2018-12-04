@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link rel="stylesheet" href= "{{ url_for('static',filename='css/styles.css') }}">
   <link rel="stylesheet" href= "{{ url_for('static',filename='css/mathquill.css') }}" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -26,6 +27,11 @@
         </div>
 
         <p id="entryWrapper"> Input Equation: <span id="entryBox"></span></p>
+
+        <div class = "version_box">
+          <div id = "1" onClick="reply_click(this.id)" class = "version_button active">Version 1</div>
+          <div id = "2" onClick="reply_click(this.id)" class = "version_button">Version 2</div>
+        </div>
 
         <div id="beginButton" class="goButton">
           Continue

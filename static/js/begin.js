@@ -1,3 +1,5 @@
+var which_active = "1";
+
 $(document).ready(function() {
   window.BEGIN = {};
 
@@ -48,4 +50,21 @@ $(document).ready(function() {
       alert("Please enter an equation!")
     }
   });
+
 });
+
+
+function reply_click(clicked_id)
+  {
+    if (clicked_id == "1"){
+      var active_id = "1";
+      var non_active_id = "2";
+    } else{
+      var active_id = "2";
+      var non_active_id = "1";
+    }
+    which_active = active_id;
+    console.log("#" + active_id);
+    $( "#" + active_id ).addClass( "active" );
+    $( "#" + non_active_id ).removeClass( "active" );
+  };

@@ -27,6 +27,12 @@
   left:50px;
 }
 
+/* Font for the app */
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
 /* THE CSS FOR THE VIEWER */
 
 .viewBox {
@@ -64,7 +70,6 @@ img.equation {
 }
 
 .goButton {
-  color:white;
   width: 100px;
   margin: 15px;
   padding: 10px;
@@ -75,11 +80,7 @@ img.equation {
 
 .goButton:hover {
   cursor: pointer;
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.18);
-  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.18);
-  -ms-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.18);
-  -o-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.18);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.18);
+  background: #067ec1;
 }
 
 
@@ -191,6 +192,34 @@ img.backButton {
 
 .expando {
   width: 65px;
+}
+
+/* Version Selection */
+
+.version_box {
+    display: flex;
+    justify-content: center;
+}
+
+.version_button {
+    background: #b7b7b7;
+    padding: 9px 14px;
+    margin: 5px 25px;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.version_button:hover {
+  background: #939393;
+  cursor: pointer;
+}
+
+.active {
+    background: #03a9f4;
+}
+
+.active:hover {
+    background: #067ec1;;
 }
 
 /* Hover Animation */
