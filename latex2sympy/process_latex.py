@@ -367,27 +367,27 @@ def convert_func(func):
             expr = sympy.Pow(expr, func_pow, evaluate=False)
 
         return expr
-    elif func.LETTER() or func.SYMBOL():
-        if func.LETTER(): 
-            fname = func.LETTER().getText()
-        elif func.SYMBOL():
-            fname = func.SYMBOL().getText()[1:]
-        fname = str(fname) # can't be unicode
-        if func.subexpr():
-            subscript = None
-            if func.subexpr().expr():                   # subscript is expr
-                subscript = convert_expr(func.subexpr().expr())
-            else:                                       # subscript is atom
-                subscript = convert_atom(func.subexpr().atom())
-            subscriptName = StrPrinter().doprint(subscript)
-            fname += '_{' + subscriptName + '}'
-        input_args = func.args()
-        output_args = []
-        while input_args.args():                        # handle multiple arguments to function
-            output_args.append(convert_expr(input_args.expr()))
-            input_args = input_args.args()
-        output_args.append(convert_expr(input_args.expr()))
-        return sympy.Function(fname)(*output_args)
+    # elif func.LETTER() or func.SYMBOL():
+    #     if func.LETTER(): 
+    #         fname = func.LETTER().getText()
+    #     elif func.SYMBOL():
+    #         fname = func.SYMBOL().getText()[1:]
+    #     fname = str(fname) # can't be unicode
+    #     if func.subexpr():
+    #         subscript = None
+    #         if func.subexpr().expr():                   # subscript is expr
+    #             subscript = convert_expr(func.subexpr().expr())
+    #         else:                                       # subscript is atom
+    #             subscript = convert_atom(func.subexpr().atom())
+    #         subscriptName = StrPrinter().doprint(subscript)
+    #         fname += '_{' + subscriptName + '}'
+    #     input_args = func.args()
+    #     output_args = []
+    #     while input_args.args():                        # handle multiple arguments to function
+    #         output_args.append(convert_expr(input_args.expr()))
+    #         input_args = input_args.args()
+    #     output_args.append(convert_expr(input_args.expr()))
+    #     return sympy.Function(fname)(*output_args)
     elif func.FUNC_INT():
         return handle_integral(func)
     elif func.FUNC_SQRT():

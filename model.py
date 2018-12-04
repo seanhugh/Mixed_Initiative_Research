@@ -30,7 +30,6 @@ def get_actions(e, zipper, ac):
 
   # if option 2 is active only return the simplify button
   if (ac == "false"):
-    print ("AASDASDASDASDASDSAD")
     return [actions, tree_actions]
 
   # collect editing actions
@@ -142,11 +141,10 @@ def apply_action(act, e, zipper):
       tlz[0] = 1 - tlz[0]
       e = fill(e, ohs, tlz)
 
-      print(e)
-
       return e, tl(zipper)
   elif act == "simplify":
-    return fill(e, ir_of_sympy(sympy.sympify(se[0].doit()), zipper)), zipper
+    sp = se[0].to_sympy()
+    return fill(e, ir_of_sympy(sympy.sympify(sp.doit())), zipper), zipper
 
   return e, zipper # do nothing for now
 
@@ -168,7 +166,7 @@ def highlight_selection(e, zipper):
 def init(eq, ac):
   # parse into sympy expression
   e = process_sympy(eq)
-  e = ir_of_sympy(e)
+  e = ir_of_sympy(e).flatten()
 
   return {
     "equation" : "0:\\quad " + highlight_selection(e, []),
@@ -194,6 +192,7 @@ def update(action, state):
   zipper = state["zipper"]
 
   e2, zipper2 = apply_action(action, e, zipper) # apply action
+  e2 = e2.flatten()
   count = state["equation"]["count"] + 1 # increment state
 
   ac = state["active"]
