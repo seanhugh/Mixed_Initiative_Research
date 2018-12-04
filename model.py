@@ -8,11 +8,12 @@ from zipper import *
 
 # what are the actions available at this location?
 # XXX this would be so much better if our zippers were typed...
-def get_actions(e, zipper):
+def get_actions(e, zipper, ac):
   se = get_subexprs(e, zipper)
   print("subexprs", se)
 
   actions = ["simplify"]
+
   tree_actions = []
 
   # collect movement actions
@@ -26,6 +27,11 @@ def get_actions(e, zipper):
     tree_actions += ["left"]
   if not is_none(right_sib(e, zipper)):
     tree_actions += ["right"]
+
+  # if option 2 is active only return the simplify button
+  if (ac == "false"):
+    print ("AASDASDASDASDASDSAD")
+    return [actions, tree_actions]
 
   # collect editing actions
   # commuting
@@ -160,14 +166,15 @@ def highlight_selection(e, zipper):
 #   - highlight (the zipper state indicating the acting subnode)
 
 # generate new state from starting equation
-def init(eq):
+def init(eq, ac):
   # parse into sympy expression
   e = process_sympy(eq)
 
   return {
     "equation" : "0:\\quad " + highlight_selection(e, []),
-    "buttons" : get_actions(e, []),
+    "buttons" : get_actions(e, [], ac),
     "state" : {
+      "active" : ac,
       "equation" : {
         "srepr" : sympy.srepr(e),
         "count" : 0,
@@ -189,10 +196,14 @@ def update(action, state):
   e2, zipper2 = apply_action(action, e, zipper) # apply action
   count = state["equation"]["count"] + 1 # increment state
 
+  ac = state["active"]
+
   return {
     "equation" : str(count) + ":\\quad " + highlight_selection(e2, zipper2),
-    "buttons" : get_actions(e2, zipper2),
+    "buttons" : get_actions(e2, zipper2, ac),
+    "active" : ac,
     "state" : {
+      "active" : ac,
       "equation" : {
         "srepr" : sympy.srepr(e2),
         "count" : count,

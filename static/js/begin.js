@@ -45,7 +45,7 @@ $(document).ready(function() {
   // post equation to server to start interaction
   $('#beginButton').on('click', function () {
     if(BEGIN.entry.latex()){
-      BEGIN.postBegin('/', { equation: BEGIN.getEquation() });
+      BEGIN.postBegin('/', { equation: BEGIN.getEquation(), active: $( "#1" ).hasClass( "active" )});
     } else{
       alert("Please enter an equation!")
     }

@@ -34,9 +34,11 @@ def show_index():
   else:
     # render view.html with initial state baked in
     startEquation = request.form['equation']
+    startActive = request.form['active']
     print("got equation: " + startEquation)
+    print("got active: " + startActive)
 
-    startState = model.init(startEquation)
+    startState = model.init(startEquation, startActive)
 
     return render_template('view.html', state=startState)
 
