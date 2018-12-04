@@ -1,8 +1,4 @@
-import sympy
-from sympy import *
-
-# XXX need hole semantics library for this stuff
-# esp when it comes to generating latex
+from ir import *
 
 # XXX we're only gonna support equality, addition, multiplication, power for now...
 
@@ -29,7 +25,7 @@ def fill(e, se, zipper):
   l = list(e.args)
   l[zipper[-1]] = fill(l[zipper[-1]], se, zipper[:-1])
 
-  return e.func(*l)
+  return type(e)(*l)
 
 def non_empty(e):
   return e.args != ()
@@ -79,7 +75,7 @@ def is_a(c):
   def e(x):
     if x == None:
       return False
-    return x.func == c
+    return x.__class__ == c
   return e
 
 def is_none(x):

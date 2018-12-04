@@ -1,5 +1,5 @@
 import sympy
-from sympy import *
+from ir import *
 from latex2sympy.process_latex import *
 from zipper import *
 
@@ -79,7 +79,7 @@ def apply_action(act, e, zipper):
     l = list(se[1].args)
     l = l[:zipper[0] - 1] + [l[zipper[0]], l[zipper[0] - 1]] + l[zipper[0] + 1:]
 
-    e = fill(e, se[1].func(*l), tl(zipper))
+    e = fill(e, type(se[1])(*l), tl(zipper))
     zipper[0] = zipper[0] - 1
 
     return e, zipper
@@ -87,30 +87,30 @@ def apply_action(act, e, zipper):
     l = list(se[1].args)
     l = l[:zipper[0]] + [l[zipper[0] + 1], l[zipper[0]]] + l[zipper[0] + 2:]
 
-    e = fill(e, se[1].func(*l), tl(zipper))
+    e = fill(e, type(se[1])(*l), tl(zipper))
     zipper[0] = zipper[0] + 1
     return e, zipper
   elif act == "distribute right":
     l = list(se[1].args)
     dist = Add(*[Mul(l[zipper[0]], i) for i in l[zipper[0] + 1].args])
     l = l[:zipper[0]] + [dist] + l[zipper[0] + 2:]
-    return fill(e, se[1].func(*l), tl(zipper)), tl(zipper)
+    return fill(e, type(se[1])(*l), tl(zipper)), tl(zipper)
   elif act == "sub from both sides":
-    if se[1].func == Eq:
+    if se[1].__class__ == Eq:
       ths = se[1].args[zipper[0]]
       ohs = se[1].args[1 - zipper[0]]
 
       zipper[0] = 1 - zipper[0]
-      e = fill(e, Add(ohs, Mul(Integer(-1), ths)), zipper)
+      e = fill(e, Add(ohs, Mul(Number(-1), ths)), zipper)
       zipper[0] = 1 - zipper[0]
-      e = fill(e, Integer(0), zipper)
+      e = fill(e, Number(0), zipper)
 
       return e, tl(zipper)
-    elif se[1].func == Add:
+    elif se[1].__class__ == Add:
       ohs = se[2].args[1 - zipper[1]]
       l = list(se[1].args)
 
-      ohs = Add(ohs, Mul(Integer(-1), l[zipper[0]]))
+      ohs = Add(ohs, Mul(Number(-1), l[zipper[0]]))
       l = l[:zipper[0]] + l[zipper[0] + 1:]
 
       tlz = tl(zipper)
@@ -120,21 +120,21 @@ def apply_action(act, e, zipper):
 
       return e, tl(zipper)
   elif act == "div from both sides":
-    if se[1].func == Eq:
+    if se[1].__class__ == Eq:
       ths = se[1].args[zipper[0]]
       ohs = se[1].args[1 - zipper[0]]
 
       zipper[0] = 1 - zipper[0]
-      e = fill(e, Mul(ohs, Pow(ths, Integer(-1))), zipper)
+      e = fill(e, Mul(ohs, Pow(ths, Number(-1))), zipper)
       zipper[0] = 1 - zipper[0]
-      e = fill(e, Integer(1), zipper)
+      e = fill(e, Number(1), zipper)
 
       return e, tl(zipper)
-    elif se[1].func == Mul:
+    elif se[1].__class__ == Mul:
       ohs = se[2].args[1 - zipper[1]]
       l = list(se[1].args)
 
-      ohs = Mul(ohs, Pow(l[zipper[0]], Integer(-1)))
+      ohs = Mul(ohs, Pow(l[zipper[0]], Number(-1)))
       l = l[:zipper[0]] + l[zipper[0] + 1:]
 
       tlz = tl(zipper)
@@ -146,7 +146,7 @@ def apply_action(act, e, zipper):
 
       return e, tl(zipper)
   elif act == "simplify":
-    return fill(e, sympy.sympify(se[0]), zipper), zipper
+    return fill(e, ir_of_sympy(sympy.sympify(se[0].doit()), zipper)), zipper
 
   return e, zipper # do nothing for now
 
@@ -154,9 +154,8 @@ def apply_action(act, e, zipper):
 # super janky selection highlighting via hole punch
 # really hope nobody names their variable ASDFHOLEASDF
 def highlight_selection(e, zipper):
-  e2 = sympy.latex(fill(e, Symbol('ASDFHOLEASDF'), zipper))
-  se = sympy.latex(get_subexprs(e, zipper)[0])
-  return e2.replace('ASDFHOLEASDF', "\\textcolor{red}{" + se + "}")
+  se = get_subexprs(e, zipper)[0]
+  return fill(e, Highlight(se), zipper).to_latex()
 
 # state returned by these methods:
 # - equation (to be displayed)
@@ -169,6 +168,7 @@ def highlight_selection(e, zipper):
 def init(eq, ac):
   # parse into sympy expression
   e = process_sympy(eq)
+  e = ir_of_sympy(e)
 
   return {
     "equation" : "0:\\quad " + highlight_selection(e, []),
@@ -176,9 +176,9 @@ def init(eq, ac):
     "state" : {
       "active" : ac,
       "equation" : {
-        "srepr" : sympy.srepr(e),
+        "srepr" : e.srepr(),
         "count" : 0,
-        "raw_eq" : str(latex(e)),
+        "raw_eq" : str(e.to_latex()),
       },
       "zipper" : [] # starting at top level
     }
@@ -205,9 +205,9 @@ def update(action, state):
     "state" : {
       "active" : ac,
       "equation" : {
-        "srepr" : sympy.srepr(e2),
+        "srepr" : e2.srepr(),
         "count" : count,
-        "raw_eq" : str(latex(e2)),
+        "raw_eq" : str(e2.to_latex()),
       },
       "zipper" : zipper2
     }
