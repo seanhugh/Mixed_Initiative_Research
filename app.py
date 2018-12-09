@@ -64,10 +64,23 @@ def makeState(equation, active):
           "active": active}
 
 # Create the four equations
-states = [makeState("5 + x", True),
-          makeState("5 + x", True),
-          makeState("5 + x", True),
-          makeState("5 + x", True)]
+
+# Randomize the order of the equations (in pairs)
+# Randomize which group gets the alternative method (in pairs)
+
+# To add in equations just edit the equations here, randomization will be
+#  done automatically:
+
+equations = [["1x", "2x"], ["3x", "4x"]]
+
+rand_list = shuffle([1,0])
+
+active_list = shuffle([True, False])
+
+states = [makeState(rand_list[rand_list[0]][0], active_list[0]),
+          makeState(rand_list[rand_list[0]][1], active_list[0]),
+          makeState(rand_list[rand_list[1]][0], active_list[1]),
+          makeState(rand_list[rand_list[1]][1], active_list[1])]
 
 # Set the order of equations
 
@@ -90,12 +103,21 @@ def show_survey(path):
   title = "Survey " + path
   if path == "1" :
     link_loc = "/experiment/intro2"
+    if states[1]["active"] == True:
+      form_link = "https://docs.google.com/forms/d/e/1FAIpQLSdu4JIAQMew4SEO9UQ_5udRfrnraWr7CaGfJBtxHJucy_SANA/viewform?embedded=true"
+    else:
+      form_link = "https://docs.google.com/forms/d/e/1FAIpQLSel3Nkn2CfxoEHevEl63i6_zaT4jt-tUzfKCVz4H68fkZ9Ifg/viewform?embedded=true"
   else:
     link_loc = "/experiment/fin"
+    if states[3]["active"] == False:
+      form_link = "https://docs.google.com/forms/d/e/1FAIpQLSel3Nkn2CfxoEHevEl63i6_zaT4jt-tUzfKCVz4H68fkZ9Ifg/viewform?embedded=true"
+    else:
+      form_link = "https://docs.google.com/forms/d/e/1FAIpQLSdu4JIAQMew4SEO9UQ_5udRfrnraWr7CaGfJBtxHJucy_SANA/viewform?embedded=true"
 
   data = {"text": text,
               "title": title,
-              "link": link_loc}
+              "link": link_loc,
+              "form_link": form_link}
 
   return render_template('survey.html', data = data)
 
