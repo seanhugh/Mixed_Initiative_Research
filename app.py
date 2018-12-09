@@ -77,6 +77,15 @@ states = [makeState("5 + x", True),
 @app.route('/survey/<path>', methods=['GET'])
 def show_survey(path):
 
+  if path == "beg":
+    text = "This is some sample instructions"
+    title = "Survey " + path
+    link_loc = "/experiment/intro1"
+    data = {"text": text,
+              "title": title,
+              "link": link_loc}
+    return render_template('survey_intro.html', data = data)
+
   text = "This is some sample instructions"
   title = "Survey " + path
   if path == "1" :
