@@ -55,5 +55,106 @@ def update_model():
   return flask.jsonify(nextState)
 
 
+
+#### Experimental Setup ####
+
+# Doing experimental setup here (Could move this to another file later)
+def makeState(equation, active):
+  return {"equation": equation,
+          "active": active}
+
+# Create the four equations
+states = [makeState("5 + x", True),
+          makeState("5 + x", True),
+          makeState("5 + x", True),
+          makeState("5 + x", True)]
+
+# Set the order of equations
+
+# Set continue from 1 -> 2, 2-> intro2, 3-> 4, 4 -> finish
+
+
+@app.route('/survey/<path>', methods=['GET'])
+def show_survey(path):
+
+  text = "This is some sample instructions"
+  title = "Survey " + path
+  if path == "1" :
+    link_loc = "/experiment/intro2"
+  else:
+    link_loc = "/experiment/fin"
+
+  data = {"text": text,
+              "title": title,
+              "link": link_loc}
+
+  return render_template('survey.html', data = data)
+
+
+# HERE IS THE EXPERIMENTAL SETUP
+@app.route('/experiment/<part>', methods=['GET'])
+def show_1(part):
+
+    if(part == "intro1"):
+      #DO THE INTRO STUFF
+      # continue button: 1
+      text = "This is some sample instructions"
+
+      data = {"text": text,
+              "title": "Intro pt. 1",
+              "link": "/experiment/1"}
+
+      return render_template('text.html', data = data)
+
+    if(part == "intro2"):
+      #DO THE INTRO STUFF
+      # continue button: 3
+
+      text = "This is some sample instructions"
+
+      data = {"text": text,
+              "title": "Intro pt. 2",
+              "link": "/experiment/3"}
+
+      return render_template('text.html', data = data)
+
+    if(part == "fin"):
+      #DO THE INTRO STUFF
+      # continue button: 3
+
+      text = "Thank you for taking our study"
+
+      data = {"text": text,
+              "title": "Finish",
+              "link": "/experiment/fin"}
+
+      return render_template('textNo.html', data = data)
+
+    elif(part in ["1","2","3","4"]):
+      #DO THE EQUATION SOLVING STUFF
+      # Set the equation
+      cur_state = states[int(part) - 1]
+      startState = model.init(cur_state["equation"], cur_state["active"])
+
+      # Set the title for the top of the screen
+      title = "Part " + part
+
+      # Set the link location
+      if part == "1":
+        link_loc = "/experiment/2"
+      elif part == "2":
+        link_loc = "/survey/1"
+      elif part == "3":
+        link_loc = "/experiment/4"
+      elif part == "4":
+        link_loc = "/survey/2"
+
+      data = {"title": title,
+              "link": link_loc}
+
+      # return template
+      return render_template('view2.html', state=startState, data = data)
+
+
 if __name__ == "__main__":
   app.run()
