@@ -20,6 +20,7 @@
 from flask import Flask, render_template, request, url_for
 import flask
 import os
+from random import shuffle
 
 import model
 
@@ -73,14 +74,18 @@ def makeState(equation, active):
 
 equations = [["1x", "2x"], ["3x", "4x"]]
 
-rand_list = shuffle([1,0])
+rand_list = [1,0]
 
-active_list = shuffle([True, False])
+shuffle(rand_list)
 
-states = [makeState(rand_list[rand_list[0]][0], active_list[0]),
-          makeState(rand_list[rand_list[0]][1], active_list[0]),
-          makeState(rand_list[rand_list[1]][0], active_list[1]),
-          makeState(rand_list[rand_list[1]][1], active_list[1])]
+active_list = [True, False]
+
+shuffle(active_list)
+
+states = [makeState(equations[rand_list[0]][0], active_list[0]),
+          makeState(equations[rand_list[0]][1], active_list[0]),
+          makeState(equations[rand_list[1]][0], active_list[1]),
+          makeState(equations[rand_list[1]][1], active_list[1])]
 
 # Set the order of equations
 
