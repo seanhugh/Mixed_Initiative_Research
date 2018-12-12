@@ -125,7 +125,7 @@ def show_text(part):
               "title": "Experiment Explanation",
               "link": "/text/intro1"}
 
-      return render_template('text.html', data = data)
+      return render_template('vid.html', data = data)
 
     if(part == "intro1"):
       #DO THE INTRO STUFF
