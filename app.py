@@ -76,28 +76,29 @@ def makeState(equation, active):
 
 active_list = [True, False]
 
+# XXX restart server after each experiment!
 shuffle(active_list)
 
 # Set the order of equations
 
-# Set continue from 1 -> 2, 2-> intro2, 3-> 4, 4 -> finish
+# Set continue from 1 -> 2, 2 -> intro2, 3-> 4, 4 -> finish
 
 # A survey screen
 @app.route('/survey/<path>', methods=['GET'])
 def show_survey(path):
 
   if path == "beg":
-    text = "Thank you for participating in our research project! Please answer ALL of the below questions, submit the form, then proceed to the next page. Thanks!"
-    title = "Introduction Survey"
+    text = "Thank you for participating in our research project! Please answer all of the below questions and click SUBMIT before proceeding to the next page."
+    title = "Pre-Task Questionnaire"
     link_loc = "/text/vid1"
     data = {"text": text,
-              "title": title,
-              "link": link_loc}
+            "title": title,
+            "link": link_loc}
     return render_template('survey_intro.html', data = data)
 
-  text = "This is some sample instructions"
-  title = "Survey " + path
-  if path == "1" :
+  text = "Thank you for solving that problem! Please answer all of the below questions and click SUBMIT before proceeding to the next page."
+  title = "Post-Task Questionnaire " + str(path)
+  if path == "1":
     link_loc = "/text/intro2"
     if active_list[0] == True:
       form_link = "https://docs.google.com/forms/d/e/1FAIpQLSdu4JIAQMew4SEO9UQ_5udRfrnraWr7CaGfJBtxHJucy_SANA/viewform?embedded=true"
@@ -105,15 +106,15 @@ def show_survey(path):
       form_link = "https://docs.google.com/forms/d/e/1FAIpQLSel3Nkn2CfxoEHevEl63i6_zaT4jt-tUzfKCVz4H68fkZ9Ifg/viewform?embedded=true"
   else:
     link_loc = "/text/fin"
-    if active_list[1] == False:
-      form_link = "https://docs.google.com/forms/d/e/1FAIpQLSel3Nkn2CfxoEHevEl63i6_zaT4jt-tUzfKCVz4H68fkZ9Ifg/viewform?embedded=true"
-    else:
+    if active_list[1] == True:
       form_link = "https://docs.google.com/forms/d/e/1FAIpQLSdu4JIAQMew4SEO9UQ_5udRfrnraWr7CaGfJBtxHJucy_SANA/viewform?embedded=true"
+    else:
+      form_link = "https://docs.google.com/forms/d/e/1FAIpQLSel3Nkn2CfxoEHevEl63i6_zaT4jt-tUzfKCVz4H68fkZ9Ifg/viewform?embedded=true"
 
   data = {"text": text,
-              "title": title,
-              "link": link_loc,
-              "form_link": form_link}
+          "title": title,
+          "link": link_loc,
+          "form_link": form_link}
 
   return render_template('survey.html', data = data)
 
@@ -121,7 +122,7 @@ def show_survey(path):
 @app.route('/text/<part>', methods=['GET'])
 def show_text(part):
     if(part == "vid1"):
-      text = "In this experiment we will be comparing two different equation solving tools. We will provide 2 different problems to solve for each tool. You are allowed to use pen & paper alongside with the tools. Below is a video that demonstrates how to interact with these tools:"
+      text = "This experiment compares two versions of a user interface for a computer algebra system. We will provide one problem to solve for each version. You may use pen and paper along with the tools. Below is a video that demonstrates how to interact with these tools:"
 
       data = {"text": text,
               "title": "Experiment Explanation",
@@ -132,7 +133,7 @@ def show_text(part):
     if(part == "intro1"):
       #DO THE INTRO STUFF
       # continue button: 1
-      text = "You will be presented with 2 mathematical problems solve. Please solve them to the best of your abilities. Use pen or paper, and the provided tool during your solution. Click 'Continue' to begin"
+      text = "We will now present you a problem to solve. Please solve it to the best of your ability. Please use only the provided tool and pen and paper to find your solution. When you are ready, click 'Continue' to begin!"
 
       data = {"text": text,
               "title": "Intro pt. 1",
@@ -144,7 +145,7 @@ def show_text(part):
       #DO THE INTRO STUFF
       # continue button: 3
 
-      text = "You will be presented with 2 mathematical problems solve. Please solve them to the best of your abilities. Use pen or paper, and the provided tool during your solution. Click 'Continue' to begin"
+      text = "We will now present you a problem to solve. Please solve it to the best of your ability. Please use only the provided tool and pen and paper to find your solution. When you are ready, click 'Continue' to begin!"
 
       data = {"text": text,
               "title": "Intro pt. 2",
@@ -156,7 +157,7 @@ def show_text(part):
       #DO THE INTRO STUFF
       # continue button: 3
 
-      text = "Thank you for taking our study"
+      text = "Thank you for participating in our user study! Now redeem your insomnia cookie!"
 
       data = {"text": text,
               "title": "Finish",
