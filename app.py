@@ -41,6 +41,8 @@ def show_index():
 
     startState = model.init(startEquation, startActive)
 
+    print("start is: " + str(startState))
+
     return render_template('view.html', state=startState)
 
 @app.route('/update', methods=['POST'])

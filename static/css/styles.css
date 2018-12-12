@@ -91,7 +91,7 @@ img.equation {
   padding: 1em;
   background-color: #E3CBAC;
   position: relative;
-  height: 50px;
+  min-height: 50px;
 }
 
 .controlButton {
