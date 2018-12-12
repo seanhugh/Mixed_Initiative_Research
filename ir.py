@@ -157,15 +157,15 @@ class Add(AstNode):
     return contents
 
 class Mul(AstNode):
-  def __init__(self, neg=False, *args):
+  def __init__(self, *args, negator=False):
     self.args = tuple(args)
-    self.neg = neg # saved negativity
+    self.neg = negator # saved negativity
 
     # accumulate negativity
     for i in self.args:
       if i.is_neg:
-        neg = not neg
-    self.is_neg = neg
+        negator = not negator
+    self.is_neg = negator
 
   # flatten out nested mul
   def flatten(self):
@@ -212,7 +212,7 @@ class Mul(AstNode):
     elif len(new_args) == 0:
       res = Number(1 if not neg else -1)
     else:
-      res = Mul(*new_args, neg=neg).flatten()
+      res = Mul(*new_args, negator=neg)
 
     return res
 
