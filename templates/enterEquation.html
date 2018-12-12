@@ -21,10 +21,9 @@
 
     <div class = "imageBox">
       <h3>Problem {{data.title}}</h3>
-      <p>Find the Derivative of the following equation at x = 0</p>
-      <img src="{{ url_for('static',filename='img/problems/1.png') }}" class="problem"/>
+      {{ data.problem|safe }}
       <div class="nextButton" onclick="location.href = '{{data.link}}';">
-          Problem Complete
+        Problem Complete
       </div>
     </div>
 

@@ -21,18 +21,22 @@ from flask import Flask, render_template, request, url_for
 import flask
 import os
 from random import shuffle
+import time
 
 import model
 
 app = Flask(__name__)
 
+# XXX unused by experimental setup
 @app.route('/', methods=['GET', 'POST'])
 def show_index():
   if request.method == 'GET':
+    logfile.write(str(time.time()) + ": INDEX GET: EXPERIMENT GONE WRONG!!!\n")
     # begin.html, empty mathquill entry
     return render_template('begin.html')
 
   else:
+    logfile.write(str(time.time()) + ": INDEX POST START: EXPERIMENT GONE WRONG!!!\n")
     # render view.html with initial state baked in
     startEquation = request.form['equation']
     startActive = request.form['active']
@@ -42,50 +46,49 @@ def show_index():
     startState = model.init(startEquation, startActive)
 
     print("start is: " + str(startState))
+    logfile.write(str(time.time()) + ": START STATE IS " + str(startState) + "\n")
 
     return render_template('view.html', state=startState)
 
 @app.route('/update', methods=['POST'])
 def update_model():
   global state
+  
+  logfile.write(str(time.time()) + ": UPDATE POST\n")
 
   viewUpdate = request.get_json()
   print("got update: " + str(viewUpdate))
 
   nextState = model.update(viewUpdate["action"], viewUpdate["state"])
+
   print("update is: " + str(nextState))
+  logfile.write(str(time.time()) + ": UPDATED STATE IS " + str(nextState) + "\n")
 
   return flask.jsonify(nextState)
 
 
 #### Experimental Setup ####
 
-# Doing experimental setup here (Could move this to another file later)
-def makeState(equation, active):
-  return {"equation": equation,
-          "active": active}
-
-# Create the four equations
-
-# Randomize the order of the equations (in pairs)
-# Randomize which group gets the alternative method (in pairs)
-
-# To add in equations just edit the equations here, randomization will be
-#  done automatically:
-
-
 active_list = [True, False]
+problem_list = [1, 2, 3, 4]
 
 # XXX restart server after each experiment!
 shuffle(active_list)
+shuffle(problem_list)
+
+logfile = open("log" + str(time.time()) + ".txt", "a")
+
+logfile.write(str(time.time()) + ": STARTING WITH ACTIVES " + str(active_list) + "\n")
+logfile.write(str(time.time()) + ": STARTING WITH PROBLEMS " + str(problem_list) + "\n")
 
 # Set the order of equations
 
-# Set continue from 1 -> 2, 2 -> intro2, 3-> 4, 4 -> finish
+# Set continue from 1 -> 2, 2 -> intro2, 3 -> 4, 4 -> finish
 
 # A survey screen
 @app.route('/survey/<path>', methods=['GET'])
 def show_survey(path):
+  logfile.write(str(time.time()) + ": SHOW SURVEY, path: " + path + "\n")
 
   if path == "beg":
     text = "Thank you for participating in our research project! Please answer all of the below questions and click SUBMIT before proceeding to the next page."
@@ -121,8 +124,10 @@ def show_survey(path):
 # A text Screen
 @app.route('/text/<part>', methods=['GET'])
 def show_text(part):
+    logfile.write(str(time.time()) + ": SHOW TEXT, part: " + part + "\n")
+
     if(part == "vid1"):
-      text = "This experiment compares two versions of a user interface for a computer algebra system. We will provide one problem to solve for each version. You may use pen and paper along with the tools. Below is a video that demonstrates how to interact with these tools:"
+      text = "This experiment compares two versions of a user interface for a computer algebra system. We will provide two problems to solve for each version. You may use pen and paper along with the tools. Below is a video that demonstrates how to interact with these tools:"
 
       data = {"text": text,
               "title": "Experiment Explanation",
@@ -133,7 +138,7 @@ def show_text(part):
     if(part == "intro1"):
       #DO THE INTRO STUFF
       # continue button: 1
-      text = "We will now present you a problem to solve. Please solve it to the best of your ability. Please use only the provided tool and pen and paper to find your solution. When you are ready, click 'Continue' to begin!"
+      text = "We will now present you with two problems to solve. Please solve them to the best of your ability. Please use only the provided tool and pen and paper to find your solutions. When you are ready, click 'Continue' to begin!"
 
       data = {"text": text,
               "title": "Intro pt. 1",
@@ -145,7 +150,7 @@ def show_text(part):
       #DO THE INTRO STUFF
       # continue button: 3
 
-      text = "We will now present you a problem to solve. Please solve it to the best of your ability. Please use only the provided tool and pen and paper to find your solution. When you are ready, click 'Continue' to begin!"
+      text = "We will now present you with two problems to solve. Please solve them to the best of your ability. Please use only the provided tool and pen and paper to find your solutions. When you are ready, click 'Continue' to begin!"
 
       data = {"text": text,
               "title": "Intro pt. 2",
@@ -163,12 +168,16 @@ def show_text(part):
               "title": "Finish",
               "link": "/experiment/fin"}
 
+      logfile.close()
+
       return render_template('textNo.html', data = data)
 
 # The equation modifier
 @app.route('/experiment/<part>', methods=['POST', 'GET'])
 def show_1(part):
     if request.method == 'GET':
+      logfile.write(str(time.time()) + ": EXPERIMENT GET, part: " + part + "\n")
+
       if(part in ["1","2","3","4"]):
 
           # Set the title for the top of the screen
@@ -184,12 +193,17 @@ def show_1(part):
           elif part == "4":
             link_loc = "/survey/2"
 
+          problem_text = render_template('problem' + part + '.html')
+
           data = {"title": title,
-                  "link": link_loc}
+                  "link": link_loc,
+                  "problem": problem_text}
 
           return render_template('enterEquation.html', data = data)
 
     else:
+      logfile.write(str(time.time()) + ": EXPERIMENT POST, part: " + part + "\n")
+
       if(part in ["1","2","3","4"]):
         #DO THE EQUATION SOLVING STUFF
         # Set the equation
@@ -214,11 +228,15 @@ def show_1(part):
 
         startState = model.init(startEquation, isActive)
 
+        problem_text = render_template('problem' + part + '.html')
+
         data = {"title": title,
-                "link": link_loc}
+                "link": link_loc,
+                "problem": problem_text}
+
 
         # return template
-        return render_template('view2.html', state=startState, data = data)
+        return render_template('view2.html', state=startState, data=data)
 
 
 if __name__ == "__main__":
