@@ -1,9 +1,10 @@
 #container {
-  display: flex;           /* establish flex container */
-  flex-direction: column;  /* make main axis vertical */
-  justify-content: center; /* center items vertically, in this case */
-  align-items: center;     /* center items horizontally, in this case */
-  height: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    margin-top: 240px;
 }
 
 .box {
@@ -12,7 +13,6 @@
   text-align: center;
   background: #e1e2e1;
   border-radius: 2px;
-  margin-top: 300px;
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   -ms-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -235,4 +235,28 @@ img.backButton {
   -webkit-animation:wiggle .3s 2;
   animation:wiggle .3s 2;
   cursor: pointer;
+}
+
+/* CSS for the experimental layout */
+
+.imageBox {
+    width: 250px;
+    padding: 46px;
+}
+
+img.problem {
+    width: 250px;
+}
+
+.nextButton {
+    width: 100px;
+    margin-top: 5px;
+    padding: 10px;
+    background: #03a9f4;
+    border-radius: 3px;
+}
+
+.nextButton:hover {
+  cursor: pointer;
+  background: #067ec1;
 }

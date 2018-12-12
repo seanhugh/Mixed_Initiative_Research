@@ -43,16 +43,27 @@
 
   <div id="container"><!-- flex container -->
     <img src="{{ url_for('static',filename='img/logo.svg') }}" class="logo"/>
+
+    <div class = "imageBox">
+        <h3>Problem {{data.title}}</h3>
+        <p>Find the Derivative of the following equation at x = 0</p>
+        <img src="{{ url_for('static',filename='img/problems/1.png') }}" class="problem"/>
+        <div class="nextButton" onclick="location.href = '{{data.link}}';">
+          Problem Complete
+        </div>
+    </div>
+
+
     <div class="box" id="bluebox"><!-- flex item -->
 
       <div class="inputScreen">
 
         <div class = "toolbar">
-          <!-- <div class = "toolButton backButton" onclick="location.href = '.';">
+          <div class = "toolButton backButton" onclick="location.href = window.location.href;">
             <img src="{{ url_for('static',filename='img/back_button.svg') }}" class="backButton"/>
-          </div> -->
+          </div>
 
-          <p>{{data.title}}</p>
+          <p>Equation Manipulator</p>
 
         </div>
 
@@ -89,11 +100,6 @@
           <div class="controlButton">factor</div>
           <div class="controlButton">multiply</div>
         </div>
-
-        <div class="goButton" onclick="location.href = '{{data.link}}';">
-          Continue
-        </div>
-
 
       </div>
 

@@ -22,28 +22,9 @@ import flask
 import os
 from random import shuffle
 
-# Firebase Stuff
-# import firebase_admin
-# from firebase_admin import db
-
 import model
 
 app = Flask(__name__)
-
-# DATABASE STUFF
-
-# import firebase_admin
-# from firebase_admin import credentials
-# from firebase_admin import db
-
-# # Fetch the service account key JSON file contents
-# cred = credentials.Certificate('key/cs279-69cbd-firebase-adminsdk-c6kdm-dfef82d1c4.json')
-
-# firebase_admin.initialize_app(cred, {
-#     'databaseURL': 'https://cs279-69cbd.firebaseio.com/'
-# })
-# UserId = db.reference('UserID')
-
 
 @app.route('/', methods=['GET', 'POST'])
 def show_index():
@@ -73,7 +54,6 @@ def update_model():
   print("update is: " + str(nextState))
 
   return flask.jsonify(nextState)
-
 
 
 #### Experimental Setup ####
@@ -110,14 +90,14 @@ states = [makeState(equations[rand_list[0]][0], active_list[0]),
 
 # Set continue from 1 -> 2, 2-> intro2, 3-> 4, 4 -> finish
 
-
+# A survey screen
 @app.route('/survey/<path>', methods=['GET'])
 def show_survey(path):
 
   if path == "beg":
     text = "This is some sample instructions"
     title = "Survey " + path
-    link_loc = "/experiment/intro1"
+    link_loc = "/text/intro1"
     data = {"text": text,
               "title": title,
               "link": link_loc}
@@ -126,13 +106,13 @@ def show_survey(path):
   text = "This is some sample instructions"
   title = "Survey " + path
   if path == "1" :
-    link_loc = "/experiment/intro2"
+    link_loc = "/text/intro2"
     if states[1]["active"] == True:
       form_link = "https://docs.google.com/forms/d/e/1FAIpQLSdu4JIAQMew4SEO9UQ_5udRfrnraWr7CaGfJBtxHJucy_SANA/viewform?embedded=true"
     else:
       form_link = "https://docs.google.com/forms/d/e/1FAIpQLSel3Nkn2CfxoEHevEl63i6_zaT4jt-tUzfKCVz4H68fkZ9Ifg/viewform?embedded=true"
   else:
-    link_loc = "/experiment/fin"
+    link_loc = "/text/fin"
     if states[3]["active"] == False:
       form_link = "https://docs.google.com/forms/d/e/1FAIpQLSel3Nkn2CfxoEHevEl63i6_zaT4jt-tUzfKCVz4H68fkZ9Ifg/viewform?embedded=true"
     else:
@@ -145,11 +125,9 @@ def show_survey(path):
 
   return render_template('survey.html', data = data)
 
-
-# HERE IS THE EXPERIMENTAL SETUP
-@app.route('/experiment/<part>', methods=['GET'])
-def show_1(part):
-
+# A text Screen
+@app.route('/text/<part>', methods=['GET'])
+def show_text(part):
     if(part == "intro1"):
       #DO THE INTRO STUFF
       # continue button: 1
@@ -185,30 +163,55 @@ def show_1(part):
 
       return render_template('textNo.html', data = data)
 
-    elif(part in ["1","2","3","4"]):
-      #DO THE EQUATION SOLVING STUFF
-      # Set the equation
-      cur_state = states[int(part) - 1]
-      startState = model.init(cur_state["equation"], cur_state["active"])
+# The equation modifier
+@app.route('/experiment/<part>', methods=['POST', 'GET'])
+def show_1(part):
+    if request.method == 'GET':
+      if(part in ["1","2","3","4"]):
 
-      # Set the title for the top of the screen
-      title = "Part " + part
+          # Set the title for the top of the screen
+          title = part
 
-      # Set the link location
-      if part == "1":
-        link_loc = "/experiment/2"
-      elif part == "2":
-        link_loc = "/survey/1"
-      elif part == "3":
-        link_loc = "/experiment/4"
-      elif part == "4":
-        link_loc = "/survey/2"
+          # Set the link location
+          if part == "1":
+            link_loc = "/experiment/2"
+          elif part == "2":
+            link_loc = "/survey/1"
+          elif part == "3":
+            link_loc = "/experiment/4"
+          elif part == "4":
+            link_loc = "/survey/2"
 
-      data = {"title": title,
-              "link": link_loc}
+          data = {"title": title,
+                  "link": link_loc}
 
-      # return template
-      return render_template('view2.html', state=startState, data = data)
+          return render_template('enterEquation.html', data = data)
+
+    else:
+      if(part in ["1","2","3","4"]):
+        #DO THE EQUATION SOLVING STUFF
+        # Set the equation
+        cur_state = states[int(part) - 1]
+        startState = model.init(cur_state["equation"], cur_state["active"])
+
+        # Set the title for the top of the screen
+        title = part
+
+        # Set the link location
+        if part == "1":
+          link_loc = "/experiment/2"
+        elif part == "2":
+          link_loc = "/survey/1"
+        elif part == "3":
+          link_loc = "/experiment/4"
+        elif part == "4":
+          link_loc = "/survey/2"
+
+        data = {"title": title,
+                "link": link_loc}
+
+        # return template
+        return render_template('view2.html', state=startState, data = data)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" href= "{{ url_for('static',filename='css/styles.css') }}">
+  <link rel="stylesheet" href= "{{ url_for('static',filename='css/mathquill.css') }}" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{ url_for('static',filename='js/mathquill.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: { inlineMath: [['$','$'], ["\\(","\\)"]] },
+      TeX: { extensions: ["amsmath.js", "color.js"] }
+    });
+  </script>
+</head>
+<body bgcolor="#edf0f2">
+  <script src="{{ url_for('static',filename='js/begin.js') }}"></script>
+  <div id="container"><!-- flex container -->
+    <img src="{{ url_for('static',filename='img/logo.svg') }}" class="logo"/>
+
+    <div class = "imageBox">
+      <h3>Problem {{data.title}}</h3>
+      <p>Find the Derivative of the following equation at x = 0</p>
+      <img src="{{ url_for('static',filename='img/problems/1.png') }}" class="problem"/>
+      <div class="nextButton" onclick="location.href = '{{data.link}}';">
+          Problem Complete
+      </div>
+    </div>
+
+    <div class="box" id="bluebox"><!-- flex item -->
+
+      <div class="inputScreen">
+
+        <div class = "toolbar">
+          <p>Please Enter an Equation Below:</p>
+        </div>
+
+        <p id="entryWrapper"> Input Equation: <span id="entryBox"></span></p>
+
+        <div class = "version_box" style = "display: none">
+          <div id = "1" onClick="reply_click(this.id)" class = "version_button active">Version 1</div>
+          <div id = "2" onClick="reply_click(this.id)" class = "version_button">Version 2</div>
+        </div>
+
+        <div id="beginButton" class="goButton">
+          Continue
+        </div>
+        <!-- <span id="problem">ax^2 + bx + c = 0</span> -->
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
