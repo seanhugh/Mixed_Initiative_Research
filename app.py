@@ -130,7 +130,7 @@ def show_text(part):
     if(part == "intro1"):
       #DO THE INTRO STUFF
       # continue button: 1
-      text = "This is some sample instructions"
+      text = "You will be presented with 2 mathematical problems solve. Please solve them to the best of your abilities. Use pen or paper, and the provided tool during your solution. Click 'Continue' to begin"
 
       data = {"text": text,
               "title": "Intro pt. 1",
@@ -142,7 +142,7 @@ def show_text(part):
       #DO THE INTRO STUFF
       # continue button: 3
 
-      text = "This is some sample instructions"
+      text = "You will be presented with 2 mathematical problems solve. Please solve them to the best of your abilities. Use pen or paper, and the provided tool during your solution. Click 'Continue' to begin"
 
       data = {"text": text,
               "title": "Intro pt. 2",
