@@ -212,7 +212,7 @@ class Mul(AstNode):
     elif len(new_args) == 0:
       res = Number(1 if not neg else -1)
     else:
-      res = Mul(*new_args, neg=neg)
+      res = Mul(neg=neg, *new_args)
 
     return res
 
