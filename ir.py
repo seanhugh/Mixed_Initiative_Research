@@ -198,7 +198,7 @@ class Mul(AstNode):
         num += [i]
     # if there's anything in the den, put den^-1 in a mul with num
     if len(den) != 0:
-      new_args = num + [Mul(*den).invert().flatten()]
+      new_args = num + [Mul(*den).invert()]
     else:
       new_args = num
 

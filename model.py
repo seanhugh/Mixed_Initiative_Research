@@ -12,7 +12,7 @@ def get_actions(e, zipper, ac):
   se = get_subexprs(e, zipper)
   print("subexprs", se)
 
-  actions = ["simplify"]
+  actions = ["simplify", "expand"]
 
   tree_actions = []
 
@@ -146,7 +146,16 @@ def apply_action(act, e, zipper):
       return e, tl(zipper)
   elif act == "simplify":
     sp = se[0].to_sympy()
-    return fill(e, ir_of_sympy(sympy.sympify(sp.doit())), zipper), zipper
+    spe = sp.doit()
+    # attempt sympify; if it does nothing then simplify
+    spe = sympy.sympify(spe)
+    if spe == sp:
+      spe = sympy.simplify(spe)
+    return fill(e, ir_of_sympy(spe), zipper), zipper
+  elif act == "expand":
+    sp = se[0].to_sympy()
+    spe = sympy.expand(se[0].to_sympy())
+    return fill(e, ir_of_sympy(spe), zipper), zipper
 
   return e, zipper # do nothing for now
 
