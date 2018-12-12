@@ -49,10 +49,10 @@ def ir_of_sympy(e):
   else:
     raise Exception("unrecognized sympy class!")
 
-  print("=========================")
-  print(sympy.srepr(e))
-  print(retval.srepr())
-  print(retval.flatten().srepr())
+  #print("=========================")
+  #print(sympy.srepr(e))
+  #print(retval.srepr())
+  #print(retval.flatten().srepr())
 
   return retval.flatten()
 
@@ -276,7 +276,7 @@ class Root(AstNode):
 
 class Log(AstNode):
   def to_sympy(self):
-    return sympy.log(self.args[0], sympy.E)
+    return sympy.log(self.args[0].to_sympy(), sympy.E)
   def to_latex(self, assoc=0):
     return "\\log{\\left(" + self.args[0].to_latex() + "\\right)}"
 
