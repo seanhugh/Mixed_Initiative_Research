@@ -187,9 +187,30 @@ class Mul(AstNode):
       else:
         new_args += [i]
 
+    # combine denominator under single -1 power
+    num = []
+    den = []
+    # collect by powers
+    for i in new_args:
+      if isinstance(i.unfold(), Pow) and i.unfold().args[1].is_neg:
+        den += [i.invert().flatten()]
+      else:
+        num += [i]
+    # if there's anything in the den, put den^-1 in a mul with num
+    if len(den) != 0:
+      new_args = num + [Mul(*den).invert().flatten()]
+    else:
+      new_args = num
+
+    # mul of numbers: collapse
+    if len(new_args) == 1 and isinstance(new_args[0], Number):
+      res = Number(new_args[0].n if not neg else -new_args[0].n)
     # single-argument mul: become the argument
-    if len(new_args) == 1 and not neg:
+    elif len(new_args) == 1 and not neg:
       res = new_args[0]
+    # no-argument mul (1 was reduced): become 1
+    elif len(new_args) == 0:
+      res = Number(1 if not neg else -1)
     else:
       res = Mul(*new_args, neg=neg)
     
@@ -207,7 +228,7 @@ class Mul(AstNode):
     den = []
     for i in self.args:
       if isinstance(i.unfold(), Pow) and i.unfold().args[1].is_neg:
-        den += [i.invert()]
+        den += [i.invert().flatten()]
       else:
         num += [i]
 
@@ -216,7 +237,7 @@ class Mul(AstNode):
     if len(den) == 0 and len(num) == 1:
       num_contents = num[0].to_latex(0)
     elif len(den) != 0 and len(num) == 0:
-      num_contents
+      num_contents = "1"
     else:
       for i in num:
         if isinstance(i.unfold(), Number) and num_contents != "":
@@ -246,6 +267,19 @@ class Pow(AstNode):
   def __init__(self, base, exponent):
     super().__init__(base, exponent)
 
+  def flatten(self):
+    base = self.args[0].flatten()
+    expo = self.args[1].flatten()
+
+    # idempotent power by one
+    if isinstance(expo, Number) and expo.n == 1:
+      return base
+    # flatten nested pow
+    elif isinstance(expo, Number) and isinstance(base, Pow) and isinstance(base.args[1], Number):
+      return Pow(base.args[0].flatten(), Number(expo.n * base.args[1].n))
+    else:
+      return Pow(base, expo)
+
   def invert(self):
     return Pow(self.args[0], Mul(self.args[1], Number(-1))).flatten()
 
@@ -255,11 +289,16 @@ class Pow(AstNode):
   def to_latex(self, assoc=0):
     # handle explicit inversion
     if isinstance(self.args[1].unfold(), Number) and self.args[1].n == -1:
-      return "\\frac{1}{" + self.args[0].to_latex() + "}"
+      retval = "\\frac{1}{" + self.args[0].to_latex() + "}"
     elif self.args[1].unfold().is_neg:
-      return "\\frac{1}{" + self.invert().to_latex() + "}"
+      retval = "\\frac{1}{" + self.invert().to_latex() + "}"
     else:
-      return self.args[0].to_latex(100) + "^{" + self.args[1].to_latex() + "}"
+      retval = self.args[0].to_latex(100) + "^{" + self.args[1].to_latex() + "}"
+
+    if assoc >= 100:
+      retval = "\\left(" + retval + "\\right)"
+
+    return retval
 
 # special for powers of 1/something
 class Root(AstNode):
