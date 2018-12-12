@@ -157,10 +157,10 @@ class Add(AstNode):
     return contents
 
 class Mul(AstNode):
-  def __init__(self, *args, neg=False):
+  def __init__(self, neg=False, *args):
     self.args = tuple(args)
     self.neg = neg # saved negativity
-    
+
     # accumulate negativity
     for i in self.args:
       if i.is_neg:
@@ -192,12 +192,12 @@ class Mul(AstNode):
       res = new_args[0]
     else:
       res = Mul(*new_args, neg=neg)
-    
+
     return res
 
   def to_sympy(self):
     if self.neg:
-      return sympy.Mul(*list(map(lambda i: i.to_sympy(), self.args)), -1)
+      return sympy.Mul(-1, *list(map(lambda i: i.to_sympy(), self.args)))
     else:
       return sympy.Mul(*list(map(lambda i: i.to_sympy(), self.args)))
 
