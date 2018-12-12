@@ -22,9 +22,28 @@ import flask
 import os
 from random import shuffle
 
+# Firebase Stuff
+# import firebase_admin
+# from firebase_admin import db
+
 import model
 
 app = Flask(__name__)
+
+# DATABASE STUFF
+
+# import firebase_admin
+# from firebase_admin import credentials
+# from firebase_admin import db
+
+# # Fetch the service account key JSON file contents
+# cred = credentials.Certificate('key/cs279-69cbd-firebase-adminsdk-c6kdm-dfef82d1c4.json')
+
+# firebase_admin.initialize_app(cred, {
+#     'databaseURL': 'https://cs279-69cbd.firebaseio.com/'
+# })
+# UserId = db.reference('UserID')
+
 
 @app.route('/', methods=['GET', 'POST'])
 def show_index():
