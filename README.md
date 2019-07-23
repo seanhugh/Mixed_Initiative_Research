@@ -8,3 +8,11 @@ In our research study, we compare this interface to a modified interface that en
 #### Interface Design
 
 The web app runs on python flask. The frontend is lightweight, sending user input to the backend where all calculations are made using modified commands from the numpy library. Equations can be inputted and outputted in Latex at any time to allow for ease of use for the user.
+
+#### Screenshots
+
+1. The user is prompted to input an equation using a latex input package
+![Key Result](https://raw.githubusercontent.com/seanhugh/Docondo/master/Images/Input.png)
+
+2. The user is presented with manipulation commands. These allow the user to run operations on the equation, and also move throughout the equation to different subsets.
+![Key Result](https://raw.githubusercontent.com/seanhugh/Docondo/master/Images/Manipulate.png)
