@@ -1,7 +1,0 @@
-1544636629.5584517: STARTING WITH ACTIVES [False, True]
-1544636629.5584698: STARTING WITH PROBLEMS [1, 4, 2, 3]
-1544636640.6773295: INDEX GET: EXPERIMENT GONE WRONG!!!
-1544636646.2409506: INDEX POST START: EXPERIMENT GONE WRONG!!!
-1544636646.3165152: START STATE IS {'buttons': [['simplify'], ['down']], 'equation': '0:\\quad \\textcolor{red}{5 + 3}', 'state': {'active': 'true', 'equation': {'raw_eq': '5 + 3', 'srepr': 'Add(Number(5),Number(3))', 'count': 0}, 'zipper': []}}
-1544636649.0379097: UPDATE POST
-1544636649.043779: UPDATED STATE IS {'active': 'true', 'buttons': [['simplify'], []], 'equation': '1:\\quad \\textcolor{red}{8}', 'state': {'active': 'true', 'equation': {'raw_eq': '8', 'srepr': 'Number(8)', 'count': 1}, 'zipper': []}}
