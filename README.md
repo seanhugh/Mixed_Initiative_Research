@@ -1,6 +1,9 @@
 ## Equation Editing in a Mixed-Initiative User Interface ([Full Paper](https://github.com/seanhugh/Docondo/blob/master/Mixed_Initiative_Interface.pdf) | [Video Demo](https://www.youtube.com/watch?v=3HN2ipgF1Rs))
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) <a href ="https://www.fullstackpython.com/flask.html"><img src="https://github.com/pallets/flask-website/blob/master/flask_website/static/badges/flask-project-s.png" width="100px"></a>
+<a href="#"><img src="https://img.shields.io/badge/license-AGPLv3-blue.svg" alt="GitHub license"></a>
+
+
 
 #### ABSTRACT
 Docondo is a mixed-initiative interface to a computer algebra system enabling user-guided manipulation of algebraic expressions. Simply put, instead of simplifying an equation as much as the computer can instantly and in the manner the computer is programmed to do, it allows the user to guide it step-by-step to achieve the user-desired outcome.
